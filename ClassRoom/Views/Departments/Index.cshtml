@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ClassRoom.DataCreate.Department>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<h1>Department List
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>Create New Department</a>
+</h1>
+
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <table class="table table-bordered table-striped mb-0">
+    <thead>
+        <tr>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+              
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
