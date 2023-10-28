@@ -55,12 +55,38 @@ namespace ClassRoom.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LecturerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Lecturers");
+                });
+
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.LecturerCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LecturerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LecturerId");
+
+                    b.ToTable("LecturerCourses");
                 });
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Room", b =>
@@ -82,6 +108,29 @@ namespace ClassRoom.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.StudentCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -294,22 +343,27 @@ namespace ClassRoom.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("Finish")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("LecturerId")
+                    b.Property<int?>("LecturerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("LecturerId");
 
@@ -332,16 +386,11 @@ namespace ClassRoom.Migrations
                     b.Property<int?>("Credits")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LecturerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LecturerId");
 
                     b.ToTable("Courses");
                 });
@@ -375,11 +424,44 @@ namespace ClassRoom.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.LecturerCourse", b =>
+                {
+                    b.HasOne("classroombooking.DataCreate.Course", "Courses")
+                        .WithMany("LecturerCourses")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("ClassRoom.Models.DataCreate.Lecturer", "Lecturers")
+                        .WithMany("LecturerCourse")
+                        .HasForeignKey("LecturerId");
+
+                    b.Navigation("Courses");
+
+                    b.Navigation("Lecturers");
+                });
+
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.StudentCourse", b =>
+                {
+                    b.HasOne("classroombooking.DataCreate.Course", "Courses")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("classroombooking.DataCreate.Student", "Students")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Courses");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -435,30 +517,23 @@ namespace ClassRoom.Migrations
 
             modelBuilder.Entity("classroombooking.DataCreate.Booking", b =>
                 {
+                    b.HasOne("classroombooking.DataCreate.Course", "Course")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("ClassRoom.Models.DataCreate.Lecturer", "Lecturers")
                         .WithMany("Bookings")
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LecturerId");
 
                     b.HasOne("ClassRoom.Models.DataCreate.Room", "Rooms")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("Lecturers");
 
                     b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("classroombooking.DataCreate.Course", b =>
-                {
-                    b.HasOne("ClassRoom.Models.DataCreate.Lecturer", "Lecturers")
-                        .WithMany("Courses")
-                        .HasForeignKey("LecturerId");
-
-                    b.Navigation("Lecturers");
                 });
 
             modelBuilder.Entity("classroombooking.DataCreate.Student", b =>
@@ -479,12 +554,26 @@ namespace ClassRoom.Migrations
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("Courses");
+                    b.Navigation("LecturerCourse");
                 });
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Room", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("classroombooking.DataCreate.Course", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("LecturerCourses");
+
+                    b.Navigation("StudentCourses");
+                });
+
+            modelBuilder.Entity("classroombooking.DataCreate.Student", b =>
+                {
+                    b.Navigation("StudentCourses");
                 });
 #pragma warning restore 612, 618
         }

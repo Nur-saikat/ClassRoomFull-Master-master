@@ -10,18 +10,29 @@ namespace classroombooking.DataCreate
     public class Booking
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public bool IsActive { get; set; }
 
-        public int LecturerId { get; set; } 
+        [DataType(DataType.DateTime)]
+        public DateTime StartDate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime EndDate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime Finish { get; set; }
+
+        [Display(Name = "Lecturer")]
+        public int? LecturerId { get; set; }
         public virtual Lecturer? Lecturers { get; set; }
-       
-        public int RoomId { get; set; }
+        [Display(Name = "Room")]
+        public int? RoomId { get; set; }
         public virtual Room? Rooms { get; set; }
+        [Display(Name = "Course")]
+        public int? CourseId { get; set; }
+        public virtual Course? Course { get; set; }
 
-        [NotMapped]
-        public DateTime createdDateTime { get; set; } = DateTime.Now;
-
+        internal static object Select(Func<object, object> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

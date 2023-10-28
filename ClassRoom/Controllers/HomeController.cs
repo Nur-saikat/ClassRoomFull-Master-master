@@ -1,11 +1,18 @@
 ﻿using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models;
+using ClassRoom.Models.DataCreate;
+using classroombooking.DataCreate;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ClassRoom.Controllers
 {
+
     public class HomeController : Controller
     {
         //private readonly ILogger<HomeController>_Context;
@@ -15,21 +22,26 @@ namespace ClassRoom.Controllers
             _context = context;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var databasecon = _context.Bookings.Include(b => b.Lecturers).Include(b => b.Rooms);
+            var databasecon = _context.Bookings.Include(b => b.Course).Include(b => b.Lecturers).Include(b => b.Rooms);
             return View(await databasecon.ToListAsync());
         }
 
         //public IActionResult Index()
         //{
-            
+
 
         //    return View();
         //}
+        [HttpGet]
+        public IActionResult Search(string SearchTerm)
+        {
+           
+            return View();
+        }
 
-
-     
         public IActionResult Privacy()
         {
             return View();
@@ -40,5 +52,8 @@ namespace ClassRoom.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+      
     }
 }
+    

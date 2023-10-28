@@ -1,27 +1,30 @@
 ﻿@model IEnumerable<classroombooking.DataCreate.Student>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Student information";
 }
 <link href="~/css/stylesheet.css" rel="stylesheet" />
-<h1>Student information
-    
-        <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>New Student</a>
-    
-</h1>
 
+
+<h1>
+    Student information
+
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>New Student</a>
+    <a class="btn btn-primary" asp-controller="StudentCourses"><i class="bi bi-file-plus"></i>Add Courses</a>
+
+</h1>
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.StudentId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
@@ -35,25 +38,21 @@
             <th>
                 @Html.DisplayNameFor(model => model.Department)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.createdDateTime)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
@@ -64,18 +63,16 @@
                 @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Department.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.createdDateTime)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+                    @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
             </td>
         </tr>
 }
     </tbody>
-</table>
+    </table>
 </div>

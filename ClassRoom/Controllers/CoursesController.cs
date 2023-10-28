@@ -8,14 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using classroombooking.DataCreate;
 using Microsoft.AspNetCore.Authorization;
-using ClassRoom.Models.DataCreate;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace ClassRoom.Controllers
 {
     [Authorize(Roles = "Admin,Manager")]
     public class CoursesController : Controller
     {
+
         private readonly Databasecon _context;
 
         public CoursesController(Databasecon context)
@@ -26,8 +25,9 @@ namespace ClassRoom.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var databasecon = _context.Courses.Include(c => c.Lecturers);
-            return View(await databasecon.ToListAsync());
+              return _context.Courses != null ? 
+                          View(await _context.Courses.ToListAsync()) :
+                          Problem("Entity set 'Databasecon.Courses'  is null.");
         }
 
         // GET: Courses/Details/5
@@ -39,7 +39,6 @@ namespace ClassRoom.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Lecturers)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -52,7 +51,6 @@ namespace ClassRoom.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName");
             return View();
         }
 
@@ -61,16 +59,16 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Code,Credits,LecturerId")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,Name,Code,Credits")] Course course)
         {
             if (ModelState.IsValid)
             {
-                ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", course.LecturerId);
+                
                 bool isDuplicate = _context.Courses.Any(p => p.Name == course.Name);
 
                 if (isDuplicate)
                 {
-                    ModelState.AddModelError("Name", "A course with this name already exists.");
+                    ModelState.AddModelError("Name", "A course with this Name already exists.");
                     return View(course);
                 }
                 bool isDuplicateCode = _context.Courses.Any(p => p.Code == course.Code);
@@ -80,13 +78,10 @@ namespace ClassRoom.Controllers
                     ModelState.AddModelError("Code", "A course with this Code already exists.");
                     return View(course);
                 }
-             
-
                 _context.Add(course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", course.LecturerId);
             return View(course);
         }
 
@@ -103,16 +98,16 @@ namespace ClassRoom.Controllers
             {
                 return NotFound();
             }
-            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", course.LecturerId);
             return View(course);
         }
+
         [Authorize(Roles = "Admin")]
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Credits,LecturerId")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Credits")] Course course)
         {
             if (id != course.Id)
             {
@@ -121,12 +116,12 @@ namespace ClassRoom.Controllers
 
             if (ModelState.IsValid)
             {
-                ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", course.LecturerId);
+
                 bool isDuplicate = _context.Courses.Any(p => p.Name == course.Name);
 
                 if (isDuplicate)
                 {
-                    ModelState.AddModelError("Name", "A course with this name already exists.");
+                    ModelState.AddModelError("Name", "A course with this Name already exists.");
                     return View(course);
                 }
                 bool isDuplicateCode = _context.Courses.Any(p => p.Code == course.Code);
@@ -136,9 +131,6 @@ namespace ClassRoom.Controllers
                     ModelState.AddModelError("Code", "A course with this Code already exists.");
                     return View(course);
                 }
-
-
-               
                 try
                 {
                     _context.Update(course);
@@ -157,7 +149,6 @@ namespace ClassRoom.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", course.LecturerId);
             return View(course);
         }
 
@@ -170,7 +161,6 @@ namespace ClassRoom.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Lecturers)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -179,6 +169,7 @@ namespace ClassRoom.Controllers
 
             return View(course);
         }
+
         [Authorize(Roles = "Admin")]
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]

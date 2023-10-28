@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="http://192.168.0.101:8012/" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\abdur\\OneDrive\\Desktop\\Class\ room\ proj\\C\#\\ClassRoomFull-Master-master\\ClassRoom\\obj\\Release\\net7\.0\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>

@@ -4,7 +4,10 @@
     ViewData["Title"] = "Home Page";
 
 }
+
 <link href="~/css/stylesheet.css" rel="stylesheet" />
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 
@@ -14,51 +17,68 @@
 
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-   @*          <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.Lecturers)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rooms)
-            </th>
-
-           
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-      @*           <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td> *@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lecturers.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rooms.Name)
-                </td>
-
-
-               
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Finish)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturers)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rooms)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course)
+                </th>
+              
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(i => i.Id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Finish)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lecturers.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rooms.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Code)
+                        @Html.DisplayFor(modelItem => item.Course.Name)
+                    </td>
+                
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+<script>
+    $(function () {
+        $('#f_search input').keydown(function (e) {
+
+            var searchTerm = $("#ipt_search").val();
+
+            if (searchTerm == "" && event.keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    })
+</script>

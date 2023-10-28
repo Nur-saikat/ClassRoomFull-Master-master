@@ -1,10 +1,11 @@
 ﻿@model classroombooking.DataCreate.Course
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Course Details";
 }
+<link href="~/css/stylesheet.css" rel="stylesheet" />
 
-<h1>Details</h1>
+<h1 style="display:flex;justify-content:center;">Details</h1>
 
 <div>
     <h4>Course</h4>
@@ -27,12 +28,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Credits)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Lecturers)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lecturers.FullName)
         </dd>
     </dl>
 </div>

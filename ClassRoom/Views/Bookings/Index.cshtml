@@ -1,26 +1,29 @@
 ﻿@model IEnumerable<classroombooking.DataCreate.Booking>
 
 @{
-    ViewData["Title"] = "Booking";
+    ViewData["Title"] = "Index";
 }
 <link href="~/css/stylesheet.css" rel="stylesheet" />
-<h1>Booking
-    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>New Booking</a>
-</h1>
 
+<h1>
+    Class Routine
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>Create New</a>
+    <a class="btn btn-primary" asp-action="Room_Booking">Room Booking</a>
+
+</h1>
 
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StartTime)
+                @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndTime)
+                @Html.DisplayNameFor(model => model.EndDate)
             </th>
-         @*    <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+       @*      <th>
+                @Html.DisplayNameFor(model => model.Finish)
             </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.Lecturers)
@@ -28,21 +31,23 @@
             <th>
                 @Html.DisplayNameFor(model => model.Rooms)
             </th>
-          
-      @*       <th></th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderBy(i=>i.Rooms.Name)) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
+                @Html.DisplayFor(modelItem => item.EndDate)
             </td>
-        @*     <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
+         @*    <td>
+                @Html.DisplayFor(modelItem => item.Finish)
             </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.Lecturers.FullName)
@@ -50,12 +55,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Rooms.Name)
             </td>
-
-             
             <td>
-                    
-                    <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
             </td>
         </tr>
 }

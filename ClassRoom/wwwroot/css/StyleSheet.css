@@ -1,35 +1,21 @@
 ﻿body {
-    background-color:aliceblue;
+     background-color:aliceblue;
+/*
+    background-image: url('../image/pngtree-liquid-water-drop-splash-three-dimensional-decoration-png-image_4361854.png');
+    
+    background-size: cover;*/
 }
 .btn {
     text-decoration: blink;
     display: inline-flex;
     float: right;
+    margin-left: 10px;
 }
-/*table {
-    width: 100%;
-    display: block;
-}
-
-thead {
-    display: inline-block;
-    width: 100%;
-    height: 20px;
-}
-
-tbody {
-    height: 200px;
-    display: inline-block;
-    width: 100%;
-    overflow: auto;
-}*/
-
 .my-custom-scrollbar {
     position: relative;
-    height: 470px;
+    height: 400px;
     overflow: auto;
 }
-
 .table-wrapper-scroll-y {
     display: block;
 }

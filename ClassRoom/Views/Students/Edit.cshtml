@@ -1,10 +1,10 @@
 ﻿@model classroombooking.DataCreate.Student
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Student Edit";
 }
-
-<h1>Edit</h1>
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<h1 style="display:flex;justify-content:center;">Edit</h1>
 
 <h4>Student</h4>
 <hr />
@@ -13,6 +13,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <input asp-for="StudentId" class="form-control" />
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />

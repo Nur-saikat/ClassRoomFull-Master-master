@@ -3,31 +3,32 @@
 @{
     ViewData["Title"] = "Details";
 }
+<link href="~/css/stylesheet.css" rel="stylesheet" />
 
-<h1>Details</h1>
+<h1 style="display:flex;justify-content:center;">Details</h1>
 
 <div>
     <h4>Booking</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartTime)
+            @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartTime)
+            @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndTime)
+            @Html.DisplayNameFor(model => model.EndDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndTime)
+            @Html.DisplayFor(model => model.EndDate)
         </dd>
-  @*       <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Finish)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd> *@
+            @Html.DisplayFor(model => model.Finish)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Lecturers)
         </dt>
@@ -40,14 +41,16 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Rooms.Name)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.createdDateTime)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Course)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.createdDateTime)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Course.Code)
+            @Html.DisplayFor(model => model.Course.Name)
         </dd>
     </dl>
 </div>
 <div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

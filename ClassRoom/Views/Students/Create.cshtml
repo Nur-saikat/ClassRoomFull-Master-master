@@ -1,10 +1,11 @@
 ﻿@model classroombooking.DataCreate.Student
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Student";
 }
+<link href="~/css/stylesheet.css" rel="stylesheet" />
 
-<h1>Create</h1>
+<h1 style="display:flex;justify-content:center;">Create</h1>
 
 <h4>Student</h4>
 <hr />
@@ -12,6 +13,11 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <input asp-for="StudentId" class="form-control" />
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -22,7 +28,6 @@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-       
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
@@ -40,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"><option selected>Choose...</option></select>
+                <select asp-for="DepartmentId" class ="form-control" asp-items="ViewBag.DepartmentId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

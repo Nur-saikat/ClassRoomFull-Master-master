@@ -22,4 +22,10 @@ namespace ClassRoom.Models.DataCreate
         public virtual ICollection<Booking> Bookings { get; } = new List<Booking>();
 
     }
+    public enum Type
+    {
+        Class,
+        Lab,
+        Exam
+    }
 }

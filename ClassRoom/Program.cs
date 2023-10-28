@@ -60,12 +60,9 @@ using (var scope = app.Services.CreateScope())
         var user = new IdentityUser();
         user.UserName = email;
         user.Email = email;
-
-
         await userManager.CreateAsync(user, password);
 
         userManager.AddToRoleAsync(user, "Admin");
-
 
     }
 }

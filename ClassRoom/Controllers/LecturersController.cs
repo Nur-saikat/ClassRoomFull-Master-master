@@ -8,14 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
 using Microsoft.AspNetCore.Authorization;
-using classroombooking.DataCreate;
 
 namespace ClassRoom.Controllers
 {
     [Authorize(Roles = "Admin,Manager")]
     public class LecturersController : Controller
     {
-
         private readonly Databasecon _context;
 
         public LecturersController(Databasecon context)
@@ -41,6 +39,12 @@ namespace ClassRoom.Controllers
 
             var lecturer = await _context.Lecturers
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            ViewBag.Courses =
+            await _context.LecturerCourses
+               .Include(s => s.Courses)
+               .Where(m => m.LecturerId == id).ToListAsync();
+
             if (lecturer == null)
             {
                 return NotFound();
@@ -60,11 +64,10 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Number")] Lecturer lecturer)
+        public async Task<IActionResult> Create([Bind("Id,LecturerId,FirstName,LastName,Number")] Lecturer lecturer)
         {
             if (ModelState.IsValid)
             {
-              
                 _context.Add(lecturer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,13 +91,13 @@ namespace ClassRoom.Controllers
             return View(lecturer);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Lecturers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Number")] Lecturer lecturer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LecturerId,FirstName,LastName,Number")] Lecturer lecturer)
         {
             if (id != lecturer.Id)
             {
@@ -141,6 +144,7 @@ namespace ClassRoom.Controllers
 
             return View(lecturer);
         }
+
         [Authorize(Roles = "Admin")]
         // POST: Lecturers/Delete/5
         [HttpPost, ActionName("Delete")]

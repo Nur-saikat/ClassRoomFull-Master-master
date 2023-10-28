@@ -1,0 +1,48 @@
+﻿@model classroombooking.DataCreate.Booking
+
+@{
+    ViewData["Title"] = "Room Booking";
+}
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<h1 style="display:flex;justify-content:center;">Create</h1>
+<h4>Room Booking</h4>
+<h4 class="text-danger">@ViewBag.Status</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Room_Booking">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LecturerId" class="control-label"></label>
+                <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.LecturerId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomId" class="control-label"></label>
+                <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using ClassRoom.DataCreate;
+using ClassRoom.Models.DataCreate;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +9,8 @@ namespace classroombooking.DataCreate
     {
         public int Id { get; set; }
         
+        public int StudentId { get; set; }
+
         public string FirstName { get; set; } = null!;
         
         public string LastName { get; set; } = null!;
@@ -26,7 +29,8 @@ namespace classroombooking.DataCreate
         public int? DepartmentId { get; set; }
         public virtual Department? Department { get; set; }
 
+        public virtual ICollection<StudentCourse> StudentCourses { get; } = new List<StudentCourse>();
 
-      
+
     }
 }

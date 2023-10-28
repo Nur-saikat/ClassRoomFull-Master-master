@@ -1,27 +1,31 @@
 ﻿@model IEnumerable<ClassRoom.Models.DataCreate.Lecturer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lecturer information";
 }
+
 <link href="~/css/stylesheet.css" rel="stylesheet" />
-<h1>Lecturer List
-    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>Create New Lecturer</a>
+
+
+<h1>
+    Lecturer information
+
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>New Lecturer</a>
+    <a class="btn btn-primary" asp-area="" asp-controller="LecturerCourses"><i class="bi bi-file-plus"></i>Add Courses</a>
+
 </h1>
-
-
-
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.LecturerId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Number)
@@ -33,25 +37,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.LecturerId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Number)
             </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-card-text"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
             </td>
         </tr>
 }
     </tbody>
+</table>
 </table>
 </div>

@@ -18,6 +18,8 @@ public class Databasecon : IdentityDbContext<IdentityUser>
     public DbSet<Lecturer> Lecturers { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Department> Departments { get; set; }
+    public DbSet<LecturerCourse> LecturerCourses { get; set; }
+    public DbSet<StudentCourse> StudentCourse { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

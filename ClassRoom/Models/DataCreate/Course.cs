@@ -13,13 +13,12 @@ namespace classroombooking.DataCreate
 
         public int? Credits { get; set; }
 
-        public int? LecturerId { get; set; }
-        public virtual Lecturer? Lecturers { get; set; }
-
+    
         [NotMapped]
         public DateTime createdDateTime { get; set; } = DateTime.Now;
-
-
+        public virtual ICollection<StudentCourse> StudentCourses { get; } = new List<StudentCourse>();
+        public virtual ICollection<LecturerCourse> LecturerCourses { get; } = new List<LecturerCourse>();
+        public virtual ICollection<Booking> Bookings { get; } = new List<Booking>();
 
     }
 }

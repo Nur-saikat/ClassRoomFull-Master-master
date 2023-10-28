@@ -1,0 +1,30 @@
+﻿@model ClassRoom.Models.DataCreate.StudentCourse
+
+@{
+    ViewData["Title"] = "Student And Course Details";
+}
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<h1 style="display:flex;justify-content:center;">Details</h1>
+
+<div>
+    <h4>StudentCourse</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Students)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Students.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Courses)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Courses.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

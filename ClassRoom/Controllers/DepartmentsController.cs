@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ClassRoom.Areas.Identity.Data;
-using ClassRoom.DataCreate;
+﻿using ClassRoom.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
-using classroombooking.DataCreate;
-using DocumentFormat.OpenXml.Bibliography;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Department = ClassRoom.DataCreate.Department;
 
 namespace ClassRoom.Controllers
@@ -137,6 +129,7 @@ namespace ClassRoom.Controllers
             return View(department);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Departments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

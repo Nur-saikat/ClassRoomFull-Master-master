@@ -39,6 +39,12 @@ namespace ClassRoom.Controllers
             var student = await _context.Student
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            ViewBag.Courses =
+            await _context.StudentCourse
+               .Include(s => s.Courses)
+               .Where(m => m.StudentId == id).ToListAsync();
+
             if (student == null)
             {
                 return NotFound();
@@ -59,10 +65,17 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,Number,DateOfBirth,DepartmentId")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,StudentId,FirstName,LastName,Address,Number,DateOfBirth,DepartmentId")] Student student)
         {
             if (ModelState.IsValid)
             {
+                bool isDuplicate = _context.Student.Any(p => p.StudentId == student.StudentId);
+                ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", student.DepartmentId);
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError("StudentId", "A Student with this Id already exists.");
+                    return View(student);
+                }
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -70,7 +83,7 @@ namespace ClassRoom.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", student.DepartmentId);
             return View(student);
         }
-        //[Authorize(Roles = "Admin")]
+
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -88,13 +101,13 @@ namespace ClassRoom.Controllers
             return View(student);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Students/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,Number,DateOfBirth,DepartmentId")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,FirstName,LastName,Address,Number,DateOfBirth,DepartmentId")] Student student)
         {
             if (id != student.Id)
             {
@@ -103,6 +116,13 @@ namespace ClassRoom.Controllers
 
             if (ModelState.IsValid)
             {
+                bool isDuplicate = _context.Student.Any(p => p.StudentId == student.StudentId);
+                ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", student.DepartmentId);
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError("StudentId", "A Student with this Id already exists.");
+                    return View(student);
+                }
                 try
                 {
                     _context.Update(student);
@@ -124,7 +144,7 @@ namespace ClassRoom.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", student.DepartmentId);
             return View(student);
         }
-        //[Authorize(Roles = "Admin")]
+
         // GET: Students/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -136,6 +156,8 @@ namespace ClassRoom.Controllers
             var student = await _context.Student
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+
             if (student == null)
             {
                 return NotFound();
@@ -143,6 +165,7 @@ namespace ClassRoom.Controllers
 
             return View(student);
         }
+
         [Authorize(Roles = "Admin")]
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
