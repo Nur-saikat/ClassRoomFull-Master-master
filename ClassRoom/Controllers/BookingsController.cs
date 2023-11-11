@@ -90,10 +90,13 @@ namespace ClassRoom.Controllers
                 ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
                 ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
                 ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
-                bool isDuplicate = _context.Bookings.Any(p => p.RoomId == booking.RoomId &&
-                ((p.StartDate <= booking.StartDate && p.Finish >= booking.StartDate) ||
-                (p.StartDate <= booking.Finish && p.Finish >= booking.Finish) ||
-                (p.StartDate >= booking.StartDate && p.Finish <= booking.Finish)));
+                bool isDuplicate = _context.Bookings.Any(p =>
+                  p.RoomId == booking.RoomId &&
+                  (
+                      (booking.StartDate >= p.StartDate && booking.StartDate < p.EndDate) ||
+                      (booking.EndDate > p.StartDate && booking.EndDate <= p.EndDate)
+                  )
+);
 
                 if (isDuplicate)
                 {
@@ -169,6 +172,7 @@ namespace ClassRoom.Controllers
 
             if (ModelState.IsValid)
             {
+
                 try
                 {
                     _context.Update(booking);

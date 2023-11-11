@@ -158,6 +158,8 @@ namespace ClassRoom.Controllers
             var lecturer = await _context.Lecturers.FindAsync(id);
             if (lecturer != null)
             {
+                var lecturersCourse = await _context.LecturerCourses.Where(m => m.LecturerId == lecturer.Id).ToListAsync();
+                _context.LecturerCourses.RemoveRange(lecturersCourse);
                 _context.Lecturers.Remove(lecturer);
             }
             

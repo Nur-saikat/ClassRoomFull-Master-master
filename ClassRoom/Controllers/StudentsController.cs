@@ -179,6 +179,8 @@ namespace ClassRoom.Controllers
             var student = await _context.Student.FindAsync(id);
             if (student != null)
             {
+                var studentCourses = await _context.StudentCourse.Where(m => m.StudentId == student.Id).ToListAsync();
+                _context.StudentCourse.RemoveRange(studentCourses);
                 _context.Student.Remove(student);
             }
             

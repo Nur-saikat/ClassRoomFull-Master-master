@@ -26,6 +26,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
@@ -53,6 +56,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>

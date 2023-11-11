@@ -10,10 +10,10 @@ namespace classroombooking.DataCreate
     public class Booking
     {
         public int Id { get; set; }
-
+        [Display(Name = "Class Start")]
         [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
-
+        [Display(Name = "Class End")]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
