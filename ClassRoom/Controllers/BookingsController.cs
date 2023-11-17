@@ -9,6 +9,7 @@ using ClassRoom.Areas.Identity.Data;
 using classroombooking.DataCreate;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using Microsoft.AspNetCore.Authorization;
+using ClassRoom.Models;
 
 namespace ClassRoom.Controllers
 {
@@ -23,10 +24,23 @@ namespace ClassRoom.Controllers
         }
 
         // GET: Bookings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(FilterClassRoutine filter = null)
         {
-            var databasecon = _context.Bookings.Include(b => b.Course).Include(b => b.Lecturers).Include(b => b.Rooms);
-            return View(await databasecon.ToListAsync());
+            filter = filter ?? new FilterClassRoutine();
+            ViewData["Filter"] = filter;
+            ViewData["FilterErrorMsg"] = "";
+
+            var bookingsData = await _context.Bookings.Include(b => b.Course).Include(b => b.Lecturers).Include(b => b.Rooms).ToListAsync();
+            if (filter.StartDate != null && filter.EndDate != null && filter.StartDate < filter.EndDate)
+            {
+                bookingsData = bookingsData.Where(d => d.StartDate >= filter.StartDate && d.EndDate <= filter.EndDate).ToList();
+            }
+            else if (filter.StartDate != null && filter.EndDate != null && filter.StartDate > filter.EndDate)
+            {
+                ViewData["FilterErrorMsg"] = "Start date of filter can not be less than end date!";
+            }
+
+            return View(bookingsData);
         }
 
         // GET: Bookings/Details/5

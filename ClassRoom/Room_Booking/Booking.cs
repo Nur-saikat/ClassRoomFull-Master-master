@@ -17,7 +17,7 @@ namespace classroombooking.DataCreate
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime Finish { get; set; }
 
         [Display(Name = "Lecturer")]

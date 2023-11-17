@@ -7,8 +7,10 @@ namespace classroombooking.DataCreate
 {
     public class Student
     {
-        public int Id { get; set; }
         
+        public int Id { get; set; }
+        [Key]
+        [Display(Name = "Student Id")]
         public int StudentId { get; set; }
 
         public string FirstName { get; set; } = null!;
