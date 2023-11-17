@@ -31,5 +31,5 @@ public class Databasecon : IdentityDbContext<IdentityUser>
     }
 
 
-    public DbSet<classroombooking.DataCreate.Student> Student { get; set; } = default!;
+    public DbSet<Student> Student { get; set; } = default!;
 }

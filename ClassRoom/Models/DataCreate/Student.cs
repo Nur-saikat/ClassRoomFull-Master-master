@@ -9,7 +9,7 @@ namespace classroombooking.DataCreate
     {
         
         public int Id { get; set; }
-        [Key]
+        
         [Display(Name = "Student Id")]
         public int StudentId { get; set; }
 
