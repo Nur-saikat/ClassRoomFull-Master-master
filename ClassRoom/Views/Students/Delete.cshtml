@@ -53,6 +53,20 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Department.Name)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudentCourses)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var courses = (List<ClassRoom.Models.DataCreate.StudentCourse>)ViewBag.Courses;
+
+                foreach (var course in courses)
+                {
+                    <span>@course.Courses.Code</span>
+                    <span>@course.Courses.Name</span>
+                }
+            }
+        </dd>
     </dl>
     
     <form asp-action="Delete">

@@ -2,8 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+
     var filterClassRoutine = ViewBag.Filter as FilterClassRoutine;
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="~/css/stylesheet.css" rel="stylesheet" />
 
 <h1>
@@ -27,9 +29,8 @@
 <div style="height:10px"></div>
 
 
-
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <table class="table table-bordered table-striped mb-0">
+    <table id="tx" class="table table-bordered table-striped mb-0">
     <thead>
         <tr>
             <th>
@@ -84,3 +85,4 @@
     </tbody>
 </table>
 </div>
+

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using classroombooking.DataCreate;
 using Microsoft.AspNetCore.Authorization;
+using ClassRoom.Models.DataCreate;
 
 namespace ClassRoom.Controllers
 {
@@ -40,10 +41,9 @@ namespace ClassRoom.Controllers
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            ViewBag.Courses =
-            await _context.StudentCourse
-               .Include(s => s.Courses)
-               .Where(m => m.StudentId == id).ToListAsync();
+            var sessions = await _context.Session.ToListAsync();
+
+            ViewBag.Sessions = new SelectList(sessions, "Id", "Name");
 
             if (student == null)
             {
@@ -157,6 +157,11 @@ namespace ClassRoom.Controllers
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            ViewBag.Courses =
+            await _context.StudentCourse
+               .Include(s => s.Courses)
+               .Where(m => m.StudentId == id).ToListAsync();
+
 
             if (student == null)
             {
@@ -177,20 +182,25 @@ namespace ClassRoom.Controllers
                 return Problem("Entity set 'Databasecon.Student'  is null.");
             }
             var student = await _context.Student.FindAsync(id);
+
             if (student != null)
             {
                 var studentCourses = await _context.StudentCourse.Where(m => m.StudentId == student.Id).ToListAsync();
                 _context.StudentCourse.RemoveRange(studentCourses);
+
                 _context.Student.Remove(student);
+
             }
-            
+
+
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentExists(int id)
         {
-          return (_context.Student?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Student?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

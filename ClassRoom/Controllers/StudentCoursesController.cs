@@ -9,6 +9,7 @@ using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
 using Microsoft.AspNetCore.Authorization;
 using classroombooking.DataCreate;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace ClassRoom.Controllers
 {
@@ -25,7 +26,7 @@ namespace ClassRoom.Controllers
         // GET: StudentCourses
         public async Task<IActionResult> Index()
         {
-            var databasecon = _context.StudentCourse.Include(s => s.Courses).Include(s => s.Students);
+            var databasecon = _context.StudentCourse.Include(s => s.Courses).Include(s => s.Sessions).Include(s => s.Students);
             return View(await databasecon.ToListAsync());
         }
 
@@ -40,6 +41,7 @@ namespace ClassRoom.Controllers
             var studentCourse = await _context.StudentCourse
                 .Include(s => s.Courses)
                 .Include(s => s.Students)
+                .Include(s => s.Sessions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (studentCourse == null)
             {
@@ -54,6 +56,7 @@ namespace ClassRoom.Controllers
         {
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName");
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name");
             return View();
         }
 
@@ -62,17 +65,18 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,CourseId")] StudentCourse studentCourse)
+        public async Task<IActionResult> Create([Bind("Id,StudentId,CourseId,SessionId")] StudentCourse studentCourse)
         {
             if (ModelState.IsValid)
             {
-                
+
                 _context.Add(studentCourse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentCourse.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", studentCourse.StudentId);
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", studentCourse.SessionId);
             return View(studentCourse);
         }
 
@@ -91,6 +95,7 @@ namespace ClassRoom.Controllers
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentCourse.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", studentCourse.StudentId);
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", studentCourse.SessionId);
             return View(studentCourse);
         }
 
@@ -100,7 +105,7 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,CourseId")] StudentCourse studentCourse)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,CourseId,SessionId")] StudentCourse studentCourse)
         {
             if (id != studentCourse.Id)
             {
@@ -129,6 +134,7 @@ namespace ClassRoom.Controllers
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentCourse.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", studentCourse.StudentId);
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", studentCourse.SessionId);
             return View(studentCourse);
         }
 
@@ -143,6 +149,7 @@ namespace ClassRoom.Controllers
             var studentCourse = await _context.StudentCourse
                 .Include(s => s.Courses)
                 .Include(s => s.Students)
+                .Include(s => s.Sessions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (studentCourse == null)
             {
@@ -167,14 +174,31 @@ namespace ClassRoom.Controllers
             {
                 _context.StudentCourse.Remove(studentCourse);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentCourseExists(int id)
         {
-          return (_context.StudentCourse?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.StudentCourse?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        // GET: Courses/Details/5
+        public async Task<IActionResult> GetBySession(int studentId, int sessionId)
+        {
+            var course = await _context.StudentCourse
+                .Include(c => c.Courses)
+                .Where(c => c.StudentId == studentId && c.SessionId == sessionId)
+            .Select(c => new
+            {
+                c.Courses.Id,
+                c.Courses.Code,
+                c.Courses.Name
+            })
+                .ToListAsync();
+
+            return Json(course);
         }
     }
 }

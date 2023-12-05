@@ -76,74 +76,172 @@ namespace ClassRoom.Controllers
         // POST: Bookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,Finish,LecturerId,RoomId,CourseId")] Booking booking)
+        //{
+
+        //    DateTime StartDate = booking.StartDate;
+        //    DateTime EndDate = booking.EndDate;
+        //    DateTime DateTime = booking.Finish;
+        //    int DayInterval = 7;
+        //    if (ModelState.IsValid)
+        //    {
+                
+
+        //        if (StartDate < DateTime.Now || StartDate > DateTime)
+        //        {
+        //            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
+        //            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
+        //            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
+        //            if (StartDate < DateTime.Now)
+        //                ViewBag.Status = "The Start Date & Time cannot be in the past.";
+        //            else
+        //                ViewBag.Status = "The Start Date & Time cannot be later than the End Date & Time.";
+        //            return View(booking);
+        //        }
+
+        //        ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
+        //        ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
+        //        ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
+        //        //bool isDuplicate = _context.Bookings.Any(p => p.RoomId == booking.RoomId &&
+        //        //((p.StartDate <= booking.StartDate && p.EndDate >= booking.StartDate) ||
+        //        //(p.StartDate <= booking.EndDate && p.EndDate >= booking.EndDate) ||
+        //        //(p.StartDate >= booking.StartDate && p.EndDate <= booking.Finish))
+        //        //);
+
+        //        bool isDuplicate = _context.Bookings.Any(p =>
+        //            p.RoomId == booking.RoomId &&
+        //            (
+        //                (booking.StartDate >= p.StartDate && booking.StartDate <= p.EndDate) ||
+        //                (booking.EndDate >= p.StartDate && booking.EndDate <= p.EndDate) ||
+        //                (p.StartDate >= booking.StartDate && p.StartDate <= booking.EndDate) ||
+        //                (p.EndDate >= booking.StartDate && p.EndDate <= booking.EndDate)
+        //            )
+        //        );
+
+        //        if (isDuplicate)
+        //        {
+        //            ViewBag.Status = "The Booking Could not be created.Ther were no available Room";
+        //            return View(booking);
+        //        }
+
+
+
+        //        while (StartDate <= DateTime)
+        //        {
+        //            var newData = new Booking()
+        //            {
+        //                StartDate = StartDate,
+        //                EndDate = EndDate,
+        //                Finish = DateTime,
+        //                Course = booking.Course,
+        //                CourseId = booking.CourseId,
+        //                //Id = routing.Id,
+        //                LecturerId = booking.LecturerId,
+        //                Lecturers = booking.Lecturers,
+        //                Rooms = booking.Rooms,
+        //                RoomId = booking.RoomId,
+        //            };
+
+
+
+        //            _context.Add(newData);
+
+        //            _context.SaveChanges();
+        //            StartDate = StartDate.AddDays(DayInterval);
+        //            EndDate = EndDate.AddDays(DayInterval);
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
+        //    ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
+        //    ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
+        //    return View(booking);
+        //}
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,Finish,LecturerId,RoomId,CourseId")] Booking booking)
         {
 
-            DateTime StartDate = booking.StartDate;
-            DateTime EndDate = booking.EndDate;
-            DateTime DateTime = booking.Finish;
             int DayInterval = 7;
             if (ModelState.IsValid)
             {
-                
 
-                if (StartDate < DateTime.Now || StartDate > DateTime)
+                if (booking.StartDate < DateTime.Now || booking.StartDate > booking.EndDate)
                 {
                     ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
                     ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
                     ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
-                    if (StartDate < DateTime.Now)
+
+                    if (booking.StartDate < DateTime.Now)
                         ViewBag.Status = "The Start Date & Time cannot be in the past.";
                     else
                         ViewBag.Status = "The Start Date & Time cannot be later than the End Date & Time.";
+
                     return View(booking);
                 }
 
-                ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
-                ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
-                ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
-                bool isDuplicate = _context.Bookings.Any(p =>
-                  p.RoomId == booking.RoomId &&
-                  (
-                      (booking.StartDate >= p.StartDate && booking.StartDate < p.EndDate) ||
-                      (booking.EndDate > p.StartDate && booking.EndDate <= p.EndDate)
-                  )
-);
-
-                if (isDuplicate)
+                if (booking.EndDate.Date > booking.Finish.Date)
                 {
-                    ViewBag.Status = "The Booking Could not be created.Ther were no available Room";
+                    ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", booking.LecturerId);
+                    ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
+                    ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
+
+                    ViewBag.Status = "The end date cannot be later than the finish date.";
+
                     return View(booking);
                 }
 
+               
+                
+                DateTime bookingStartDate = booking.StartDate;
+                DateTime bookingEndDate = booking.EndDate;
 
 
-                while (StartDate <= DateTime)
+                var isDataAdded = false;
+
+                while (bookingEndDate.Date <= booking.Finish.Date)
                 {
+                    bool isDuplicate = _context.Bookings.Any(p =>
+                        p.RoomId == booking.RoomId &&
+                        (
+                            (bookingStartDate >= p.StartDate && bookingStartDate <= p.EndDate) ||
+                            (bookingEndDate >= p.StartDate && bookingEndDate <= p.EndDate) ||
+                            (p.StartDate >= bookingStartDate && p.StartDate <= bookingEndDate) ||
+                            (p.EndDate >= bookingStartDate && p.EndDate <= bookingEndDate)
+                        )
+                    );
+
+                    if (isDuplicate)
+                    {
+                        ViewBag.Status = "The Booking Could not be created.Ther were no available Room";
+                        return View(booking);
+                    }
+
                     var newData = new Booking()
                     {
-                        StartDate = StartDate,
-                        EndDate = EndDate,
-                        Finish = DateTime,
+                        StartDate = bookingStartDate,
+                        EndDate = bookingEndDate,
                         Course = booking.Course,
                         CourseId = booking.CourseId,
-                        //Id = routing.Id,
                         LecturerId = booking.LecturerId,
-                        Lecturers = booking.Lecturers,
-                        Rooms = booking.Rooms,
-                        RoomId = booking.RoomId,
+                        RoomId = booking.RoomId
                     };
+                    
+                    _context.Bookings.Add(newData);
+                    isDataAdded = true;
 
-
-
-                    _context.Add(newData);
-
-                    _context.SaveChanges();
-                    StartDate = StartDate.AddDays(DayInterval);
-                    EndDate = EndDate.AddDays(DayInterval);
+                    bookingStartDate = bookingStartDate.AddDays(DayInterval);
+                    bookingEndDate = bookingEndDate.AddDays(DayInterval);
                 }
+
+                if (isDataAdded)
+                    _context.SaveChanges();
+
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", booking.CourseId);
@@ -151,6 +249,7 @@ namespace ClassRoom.Controllers
             ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
             return View(booking);
         }
+
 
         // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -186,7 +285,6 @@ namespace ClassRoom.Controllers
 
             if (ModelState.IsValid)
             {
-
                 try
                 {
                     _context.Update(booking);

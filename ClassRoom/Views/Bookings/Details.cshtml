@@ -8,7 +8,7 @@
 <h1 style="display:flex;justify-content:center;">Details</h1>
 
 <div>
-    <h4>Class Routine</h4>
+    <h4>Booking</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -23,18 +23,17 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EndDate)
         </dd>
-        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Finish)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Finish)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Lecturers)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Lecturers.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Lecturers.LecturerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lecturers.LecturerId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Rooms)
@@ -48,13 +47,6 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Course.Code)
             @Html.DisplayFor(model => model.Course.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Credits)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Credits)
-          
         </dd>
     </dl>
 </div>

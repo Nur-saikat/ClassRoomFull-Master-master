@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.Students)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Sessions)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Courses)
             </th>
             <th></th>
@@ -29,6 +32,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Students.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sessions.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Courses.Name)
@@ -44,3 +50,4 @@
     </tbody>
 </table>
 </div>
+<a asp-controller="Students" asp-action="Index">Back to List</a>

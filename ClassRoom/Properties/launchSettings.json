@@ -4,7 +4,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Publishing"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5026",
@@ -21,7 +21,7 @@
       "workingDirectory": "C:\\Users\\Saikat\\Desktop\\Class Room booking prj\\Test",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Publishing"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "sqlDebugging": true
     }
