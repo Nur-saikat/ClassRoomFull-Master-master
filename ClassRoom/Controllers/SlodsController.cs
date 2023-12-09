@@ -10,87 +10,87 @@ using ClassRoom.Models.DataCreate;
 
 namespace ClassRoom.Controllers
 {
-    public class SessionsController : Controller
+    public class SlodsController : Controller
     {
         private readonly Databasecon _context;
 
-        public SessionsController(Databasecon context)
+        public SlodsController(Databasecon context)
         {
             _context = context;
         }
 
-        // GET: Sessions
+        // GET: Slods
         public async Task<IActionResult> Index()
         {
-              return _context.Session != null ? 
-                          View(await _context.Session.ToListAsync()) :
-                          Problem("Entity set 'Databasecon.Session'  is null.");
+              return _context.Slods != null ? 
+                          View(await _context.Slods.ToListAsync()) :
+                          Problem("Entity set 'Databasecon.Slods'  is null.");
         }
 
-        // GET: Sessions/Details/5
+        // GET: Slods/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Session == null)
+            if (id == null || _context.Slods == null)
             {
                 return NotFound();
             }
 
-            var session = await _context.Session
+            var slod = await _context.Slods
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (session == null)
+            if (slod == null)
             {
                 return NotFound();
             }
 
-            return View(session);
+            return View(slod);
         }
 
-        // GET: Sessions/Create
+        // GET: Slods/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Sessions/Create
+        // POST: Slods/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Session_Start_Date,Session_End_Date")] Session session)
+        public async Task<IActionResult> Create([Bind("Id,Name,StartTime,EndTime")] Slod slod)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(session);
+                _context.Add(slod);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(session);
+            return View(slod);
         }
 
-        // GET: Sessions/Edit/5
+        // GET: Slods/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Session == null)
+            if (id == null || _context.Slods == null)
             {
                 return NotFound();
             }
 
-            var session = await _context.Session.FindAsync(id);
-            if (session == null)
+            var slod = await _context.Slods.FindAsync(id);
+            if (slod == null)
             {
                 return NotFound();
             }
-            return View(session);
+            return View(slod);
         }
 
-        // POST: Sessions/Edit/5
+        // POST: Slods/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Session_Start_Date,Session_End_Date")] Session session)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartTime,EndTime")] Slod slod)
         {
-            if (id != session.Id)
+            if (id != slod.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace ClassRoom.Controllers
             {
                 try
                 {
-                    _context.Update(session);
+                    _context.Update(slod);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SessionExists(session.Id))
+                    if (!SlodExists(slod.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace ClassRoom.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(session);
+            return View(slod);
         }
 
-        // GET: Sessions/Delete/5
+        // GET: Slods/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Session == null)
+            if (id == null || _context.Slods == null)
             {
                 return NotFound();
             }
 
-            var session = await _context.Session
+            var slod = await _context.Slods
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (session == null)
+            if (slod == null)
             {
                 return NotFound();
             }
 
-            return View(session);
+            return View(slod);
         }
 
-        // POST: Sessions/Delete/5
+        // POST: Slods/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Session == null)
+            if (_context.Slods == null)
             {
-                return Problem("Entity set 'Databasecon.Session'  is null.");
+                return Problem("Entity set 'Databasecon.Slods'  is null.");
             }
-            var session = await _context.Session.FindAsync(id);
-            if (session != null)
+            var slod = await _context.Slods.FindAsync(id);
+            if (slod != null)
             {
-                _context.Session.Remove(session);
+                _context.Slods.Remove(slod);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SessionExists(int id)
+        private bool SlodExists(int id)
         {
-          return (_context.Session?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Slods?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

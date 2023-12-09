@@ -24,7 +24,7 @@ namespace ClassRoom.Controllers
         // GET: LecturerCourses
         public async Task<IActionResult> Index()
         {
-            var databasecon = _context.LecturerCourses.Include(l => l.Courses).Include(l => l.Lecturers);
+            var databasecon = _context.LecturerCourses.Include(l => l.Courses).Include(l => l.Lecturers).Include(s => s.Sessions);
             return View(await databasecon.ToListAsync());
         }
 
@@ -39,6 +39,7 @@ namespace ClassRoom.Controllers
             var lecturerCourse = await _context.LecturerCourses
                 .Include(l => l.Courses)
                 .Include(l => l.Lecturers)
+                .Include(s => s.Sessions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (lecturerCourse == null)
             {
@@ -53,6 +54,7 @@ namespace ClassRoom.Controllers
         {
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
             ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName");
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name");
             return View();
         }
 
@@ -61,7 +63,7 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LecturerId,CourseId")] LecturerCourse lecturerCourse)
+        public async Task<IActionResult> Create([Bind("Id,LecturerId,CourseId,SessionId")] LecturerCourse lecturerCourse)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +73,7 @@ namespace ClassRoom.Controllers
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", lecturerCourse.CourseId);
             ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", lecturerCourse.LecturerId);
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", lecturerCourse.SessionId);
             return View(lecturerCourse);
         }
 
@@ -89,6 +92,7 @@ namespace ClassRoom.Controllers
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", lecturerCourse.CourseId);
             ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", lecturerCourse.LecturerId);
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", lecturerCourse.SessionId);
             return View(lecturerCourse);
         }
 
@@ -98,7 +102,7 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LecturerId,CourseId")] LecturerCourse lecturerCourse)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LecturerId,CourseId,SessionId")] LecturerCourse lecturerCourse)
         {
             if (id != lecturerCourse.Id)
             {
@@ -127,6 +131,7 @@ namespace ClassRoom.Controllers
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", lecturerCourse.CourseId);
             ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName", lecturerCourse.LecturerId);
+            ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", lecturerCourse.SessionId);
             return View(lecturerCourse);
         }
 
@@ -173,6 +178,22 @@ namespace ClassRoom.Controllers
         private bool LecturerCourseExists(int id)
         {
           return (_context.LecturerCourses?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> GetBySession(int lecturerid, int sessionId)
+        {
+            var course = await _context.LecturerCourses
+                .Include(c => c.Courses)
+                .Where(c => c.LecturerId == lecturerid && c.SessionId == sessionId)
+            .Select(c => new
+            {
+                c.Courses.Id,
+                c.Courses.Code,
+                c.Courses.Name
+            })
+                .ToListAsync();
+
+            return Json(course);
         }
     }
 }

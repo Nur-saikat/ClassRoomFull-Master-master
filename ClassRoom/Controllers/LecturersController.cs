@@ -45,6 +45,10 @@ namespace ClassRoom.Controllers
                .Include(s => s.Courses)
                .Where(m => m.LecturerId == id).ToListAsync();
 
+            var sessions = await _context.Session.ToListAsync();
+
+            ViewBag.Sessions = new SelectList(sessions, "Id", "Name");
+
             if (lecturer == null)
             {
                 return NotFound();

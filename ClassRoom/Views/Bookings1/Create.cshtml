@@ -1,31 +1,24 @@
-﻿@* @model classroombooking.DataCreate.Booking
+﻿@model classroombooking.DataCreate.Booking
 
 @{
     ViewData["Title"] = "Create";
 }
-<link href="~/css/stylesheet.css" rel="stylesheet" />
-<h1 style="display:flex;justify-content:center;">Create</h1>
-<h4>Routing</h4>
-<h4 class="text-danger">@ViewBag.Status</h4>
+
+<h1>Create</h1>
+
+<h4>Booking</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <label asp-for="SlodId" class="control-label"></label>
+                <select asp-for="SlodId" class ="form-control" asp-items="ViewBag.SlodId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Finish" class="control-label"></label>
-                <input asp-for="Finish" class="form-control" />
-                <span asp-validation-for="Finish" class="text-danger"></span>
+                <label asp-for="SessionId" class="control-label"></label>
+                <select asp-for="SessionId" class ="form-control" asp-items="ViewBag.SessionId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="LecturerId" class="control-label"></label>
@@ -40,7 +33,7 @@
                 <select asp-for="CourseId" class ="form-control" asp-items="ViewBag.CourseId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary m-2" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -53,4 +46,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
- *@

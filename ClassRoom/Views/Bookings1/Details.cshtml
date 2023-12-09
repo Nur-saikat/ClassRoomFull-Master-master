@@ -1,33 +1,26 @@
-﻿@* @model classroombooking.DataCreate.Booking
+﻿@model classroombooking.DataCreate.Booking
 
 @{
     ViewData["Title"] = "Details";
 }
-<link href="~/css/stylesheet.css" rel="stylesheet" />
 
-<h1 style="display:flex;justify-content:center;">Details</h1>
+<h1>Details</h1>
 
 <div>
     <h4>Booking</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Slods)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.Slods.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.Sessions)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Finish)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Finish)
+            @Html.DisplayFor(model => model.Sessions.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Lecturers)
@@ -45,7 +38,6 @@
             @Html.DisplayNameFor(model => model.Course)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Course.Code)
             @Html.DisplayFor(model => model.Course.Name)
         </dd>
     </dl>
@@ -54,4 +46,3 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
- *@

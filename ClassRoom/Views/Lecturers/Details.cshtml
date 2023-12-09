@@ -35,19 +35,19 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Number)
         </dd>
+
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LecturerCourse)
+            Session
         </dt>
         <dd class="col-sm-10">
-            @{
-                var courses = (List<ClassRoom.Models.DataCreate.LecturerCourse>)ViewBag.Courses;
+            @Html.DropDownList("SessionId", (IEnumerable<SelectListItem>)ViewBag.Sessions, new { @lecturerid = Model.Id })
+        </dd>
 
-                foreach (var course in courses)
-                {
-                    <span>@course.Courses.Code</span>
-                    <span>@course.Courses.Name</span>
-                }
-            }
+        <dt class="col-sm-2">
+            Lecturer Courses
+        </dt>
+
+        <dd class="col-sm-10" id="courseList">
         </dd>
     </dl>
 </div>
@@ -55,3 +55,23 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    $('#SessionId').change(function () {
+        var lecturerid = $(this).attr('lecturerid'),
+            sessionId = $(this).val();
+
+        $.ajax({
+            type: "get",
+            url: "/LecturerCourses/GetBySession",
+            data: { LecturerId: lId, sessionId: sessionId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var text = response.map(c => `<div><span>${c.Code}</span>&nbsp;<span>${c.Name}</span></div>`);
+
+                $('#courseList').html(text);
+            }
+        });
+    }).change();
+</script>

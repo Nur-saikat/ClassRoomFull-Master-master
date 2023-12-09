@@ -20,6 +20,7 @@ public class Databasecon : IdentityDbContext<IdentityUser>
     public DbSet<Department> Departments { get; set; }
     public DbSet<LecturerCourse> LecturerCourses { get; set; }
     public DbSet<StudentCourse> StudentCourse { get; set; }
+    public DbSet<Slod> Slods { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
