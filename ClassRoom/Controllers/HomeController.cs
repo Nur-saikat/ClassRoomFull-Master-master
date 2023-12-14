@@ -15,7 +15,7 @@ namespace ClassRoom.Controllers
 
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController>_Context;
+        private readonly ILogger<HomeController>_Context;
         private readonly Databasecon _context;
         public HomeController(Databasecon context)
         {
@@ -25,7 +25,7 @@ namespace ClassRoom.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var databasecon = _context.Bookings.Include(b => b.Course).Include(b => b.Lecturers).Include(b => b.Rooms);
+            var databasecon = _context.Routines.Include(r => r.Course).Include(r => r.Lecturers).Include(r => r.Sessions);
             return View(await databasecon.ToListAsync());
         }
 

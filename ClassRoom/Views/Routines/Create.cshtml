@@ -1,0 +1,50 @@
+﻿@model ClassRoom.Models.Room_Booking.Routine
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Routine</h4>
+<h4 class="text-danger">@ViewBag.Status</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="SessionId" class="control-label"></label>
+                <select asp-for="SessionId" class="form-control" asp-items="ViewBag.SessionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LecturerId" class="control-label"></label>
+                <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.LecturerId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseId" class="control-label"></label>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Room</label>
+                @Html.DropDownList("RoomId", (IEnumerable<SelectListItem>)ViewBag.Rooms, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Slot</label>
+                @Html.DropDownList("SlotId", (IEnumerable<SelectListItem>)ViewBag.Slots, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

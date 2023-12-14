@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ClassRoom.Models.Room_Booking;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassRoom.Models.DataCreate
 {
-    public class Slod
+    public class Slot
     {
 
         public int Id { get; set; }
@@ -13,5 +14,7 @@ namespace ClassRoom.Models.DataCreate
 
         [DataType(DataType.Time)]
         public DateTime EndTime { get; set; }
+
+        public virtual ICollection<Booking> Bookings { get; } = new List<Booking>();
     }
 }

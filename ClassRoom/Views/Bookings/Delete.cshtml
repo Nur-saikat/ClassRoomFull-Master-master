@@ -1,39 +1,27 @@
-﻿@* @model classroombooking.DataCreate.Booking
+﻿@model ClassRoom.Models.Room_Booking.Booking
 
 @{
     ViewData["Title"] = "Delete";
 }
-<link href="~/css/stylesheet.css" rel="stylesheet" />
-<h1 style="display:flex;justify-content:center;">Delete</h1>
 
-<h3 style="color:red;">Are you sure you want to delete this?</h3>
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Booking</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Slots)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.Slots.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.Class_Date)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Finish)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Finish)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Lecturers)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lecturers.FullName)
+            @Html.DisplayFor(model => model.Class_Date)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Rooms)
@@ -42,11 +30,10 @@
             @Html.DisplayFor(model => model.Rooms.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Course)
+            @Html.DisplayNameFor(model => model.Routines)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Course.Code)
-            @Html.DisplayFor(model => model.Course.Name)
+            @Html.DisplayFor(model => model.Routines.Id)
         </dd>
     </dl>
     
@@ -56,4 +43,3 @@
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
- *@

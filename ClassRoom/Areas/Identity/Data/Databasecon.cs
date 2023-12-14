@@ -1,5 +1,6 @@
 ﻿using ClassRoom.DataCreate;
 using ClassRoom.Models.DataCreate;
+using ClassRoom.Models.Room_Booking;
 using classroombooking.DataCreate;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,13 +15,16 @@ public class Databasecon : IdentityDbContext<IdentityUser>
     {
     }
     public DbSet<Booking> Bookings { get; set; }
+
+    public DbSet<Routine> Routines { get; set; }
+
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Lecturer> Lecturers { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<LecturerCourse> LecturerCourses { get; set; }
     public DbSet<StudentCourse> StudentCourse { get; set; }
-    public DbSet<Slod> Slods { get; set; }
+    public DbSet<Slot> Slots { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

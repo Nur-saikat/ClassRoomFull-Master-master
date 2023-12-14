@@ -1,4 +1,4 @@
-﻿@model IEnumerable<classroombooking.DataCreate.Booking>
+﻿@model IEnumerable<ClassRoom.Models.Room_Booking.Routine>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,18 +12,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Slods)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Sessions)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Lecturers)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rooms)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Course)
             </th>
@@ -33,18 +30,15 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slods.Name)
-            </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.Sessions.Name)
             </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.Lecturers.FullName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rooms.Name)
-            </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.Course.Name)
             </td>

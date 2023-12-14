@@ -1,4 +1,5 @@
-﻿using classroombooking.DataCreate;
+﻿using ClassRoom.Models.Room_Booking;
+using classroombooking.DataCreate;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClassRoom.Models.DataCreate
@@ -16,5 +17,6 @@ namespace ClassRoom.Models.DataCreate
 
         public virtual ICollection<StudentCourse> StudentCourses { get; } = new List<StudentCourse>();
         public virtual ICollection<LecturerCourse> LecturerCourses { get; } = new List<LecturerCourse>();
+        public virtual ICollection<Routine> Routines { get; } = new List<Routine>();
     }
 }

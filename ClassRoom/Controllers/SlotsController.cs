@@ -10,11 +10,11 @@ using ClassRoom.Models.DataCreate;
 
 namespace ClassRoom.Controllers
 {
-    public class SlodsController : Controller
+    public class SlotsController : Controller
     {
         private readonly Databasecon _context;
 
-        public SlodsController(Databasecon context)
+        public SlotsController(Databasecon context)
         {
             _context = context;
         }
@@ -22,20 +22,20 @@ namespace ClassRoom.Controllers
         // GET: Slods
         public async Task<IActionResult> Index()
         {
-              return _context.Slods != null ? 
-                          View(await _context.Slods.ToListAsync()) :
+              return _context.Slots != null ? 
+                          View(await _context.Slots.ToListAsync()) :
                           Problem("Entity set 'Databasecon.Slods'  is null.");
         }
 
         // GET: Slods/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Slods == null)
+            if (id == null || _context.Slots == null)
             {
                 return NotFound();
             }
 
-            var slod = await _context.Slods
+            var slod = await _context.Slots
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (slod == null)
             {
@@ -56,7 +56,7 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartTime,EndTime")] Slod slod)
+        public async Task<IActionResult> Create([Bind("Id,Name,StartTime,EndTime")] Slot slod)
         {
             if (ModelState.IsValid)
             {
@@ -70,12 +70,12 @@ namespace ClassRoom.Controllers
         // GET: Slods/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Slods == null)
+            if (id == null || _context.Slots == null)
             {
                 return NotFound();
             }
 
-            var slod = await _context.Slods.FindAsync(id);
+            var slod = await _context.Slots.FindAsync(id);
             if (slod == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartTime,EndTime")] Slod slod)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartTime,EndTime")] Slot slod)
         {
             if (id != slod.Id)
             {
@@ -121,12 +121,12 @@ namespace ClassRoom.Controllers
         // GET: Slods/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Slods == null)
+            if (id == null || _context.Slots == null)
             {
                 return NotFound();
             }
 
-            var slod = await _context.Slods
+            var slod = await _context.Slots
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (slod == null)
             {
@@ -141,14 +141,14 @@ namespace ClassRoom.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Slods == null)
+            if (_context.Slots == null)
             {
                 return Problem("Entity set 'Databasecon.Slods'  is null.");
             }
-            var slod = await _context.Slods.FindAsync(id);
+            var slod = await _context.Slots.FindAsync(id);
             if (slod != null)
             {
-                _context.Slods.Remove(slod);
+                _context.Slots.Remove(slod);
             }
             
             await _context.SaveChangesAsync();
@@ -157,7 +157,7 @@ namespace ClassRoom.Controllers
 
         private bool SlodExists(int id)
         {
-          return (_context.Slods?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Slots?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

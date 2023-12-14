@@ -4,6 +4,7 @@ using ClassRoom.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassRoom.Migrations
 {
     [DbContext(typeof(Databasecon))]
-    partial class DatabaseconModelSnapshot : ModelSnapshot
+    [Migration("20231212162750_addclassrouting")]
+    partial class addclassrouting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +40,50 @@ namespace ClassRoom.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.Class_Routine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Class_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LecturerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SessionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SlodId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SlodsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LecturerId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("SlodsId");
+
+                    b.ToTable("Class_Routines");
                 });
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Lecturer", b =>
@@ -187,65 +234,6 @@ namespace ClassRoom.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentCourse");
-                });
-
-            modelBuilder.Entity("ClassRoom.Models.Room_Booking.Booking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("Class_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoutineId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SlotId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
-
-                    b.HasIndex("RoutineId");
-
-                    b.HasIndex("SlotId");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("ClassRoom.Models.Room_Booking.Routine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LecturerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SessionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("LecturerId");
-
-                    b.HasIndex("SessionId");
-
-                    b.ToTable("Routines");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -512,6 +500,39 @@ namespace ClassRoom.Migrations
                     b.ToTable("Student");
                 });
 
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.Class_Routine", b =>
+                {
+                    b.HasOne("classroombooking.DataCreate.Course", "Course")
+                        .WithMany("Class_Routines")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("ClassRoom.Models.DataCreate.Lecturer", "Lecturers")
+                        .WithMany("Class_Routines")
+                        .HasForeignKey("LecturerId");
+
+                    b.HasOne("ClassRoom.Models.DataCreate.Room", "Rooms")
+                        .WithMany("Class_Routines")
+                        .HasForeignKey("RoomId");
+
+                    b.HasOne("ClassRoom.Models.DataCreate.Session", "Sessions")
+                        .WithMany()
+                        .HasForeignKey("SessionId");
+
+                    b.HasOne("ClassRoom.Models.DataCreate.Slot", "Slods")
+                        .WithMany("Class_Routines")
+                        .HasForeignKey("SlodsId");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Lecturers");
+
+                    b.Navigation("Rooms");
+
+                    b.Navigation("Sessions");
+
+                    b.Navigation("Slods");
+                });
+
             modelBuilder.Entity("ClassRoom.Models.DataCreate.LecturerCourse", b =>
                 {
                     b.HasOne("classroombooking.DataCreate.Course", "Courses")
@@ -552,48 +573,6 @@ namespace ClassRoom.Migrations
                     b.Navigation("Sessions");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("ClassRoom.Models.Room_Booking.Booking", b =>
-                {
-                    b.HasOne("ClassRoom.Models.DataCreate.Room", "Rooms")
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoomId");
-
-                    b.HasOne("ClassRoom.Models.Room_Booking.Routine", "Routines")
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoutineId");
-
-                    b.HasOne("ClassRoom.Models.DataCreate.Slot", "Slots")
-                        .WithMany("Bookings")
-                        .HasForeignKey("SlotId");
-
-                    b.Navigation("Rooms");
-
-                    b.Navigation("Routines");
-
-                    b.Navigation("Slots");
-                });
-
-            modelBuilder.Entity("ClassRoom.Models.Room_Booking.Routine", b =>
-                {
-                    b.HasOne("classroombooking.DataCreate.Course", "Course")
-                        .WithMany("Routines")
-                        .HasForeignKey("CourseId");
-
-                    b.HasOne("ClassRoom.Models.DataCreate.Lecturer", "Lecturers")
-                        .WithMany("Routines")
-                        .HasForeignKey("LecturerId");
-
-                    b.HasOne("ClassRoom.Models.DataCreate.Session", "Sessions")
-                        .WithMany("Routines")
-                        .HasForeignKey("SessionId");
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Lecturers");
-
-                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -663,40 +642,33 @@ namespace ClassRoom.Migrations
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Lecturer", b =>
                 {
-                    b.Navigation("LecturerCourse");
+                    b.Navigation("Class_Routines");
 
-                    b.Navigation("Routines");
+                    b.Navigation("LecturerCourse");
                 });
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Room", b =>
                 {
-                    b.Navigation("Bookings");
+                    b.Navigation("Class_Routines");
                 });
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Session", b =>
                 {
                     b.Navigation("LecturerCourses");
 
-                    b.Navigation("Routines");
-
                     b.Navigation("StudentCourses");
                 });
 
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Slot", b =>
                 {
-                    b.Navigation("Bookings");
-                });
-
-            modelBuilder.Entity("ClassRoom.Models.Room_Booking.Routine", b =>
-                {
-                    b.Navigation("Bookings");
+                    b.Navigation("Class_Routines");
                 });
 
             modelBuilder.Entity("classroombooking.DataCreate.Course", b =>
                 {
-                    b.Navigation("LecturerCourses");
+                    b.Navigation("Class_Routines");
 
-                    b.Navigation("Routines");
+                    b.Navigation("LecturerCourses");
 
                     b.Navigation("StudentCourses");
                 });

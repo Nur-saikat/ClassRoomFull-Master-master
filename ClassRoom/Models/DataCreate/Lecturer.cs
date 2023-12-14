@@ -1,4 +1,5 @@
 ﻿using ClassRoom.DataCreate;
+using ClassRoom.Models.Room_Booking;
 using classroombooking.DataCreate;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,7 +26,7 @@ namespace ClassRoom.Models.DataCreate
         [NotMapped]
         public DateTime createdDateTime { get; set; } = DateTime.Now;
 
-        public virtual ICollection<Booking> Bookings { get; } = new List<Booking>();
+        public virtual ICollection<Routine> Routines { get; } = new List<Routine>();
         public virtual ICollection<LecturerCourse> LecturerCourse { get; } = new List<LecturerCourse>();
        
 
