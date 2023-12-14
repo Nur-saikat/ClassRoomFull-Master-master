@@ -58,13 +58,13 @@
 
 <script>
     $('#SessionId').change(function () {
-        var lecturerid = $(this).attr('lecturerid'),
+        var lecturerId = $(this).attr('lecturerid'),
             sessionId = $(this).val();
 
         $.ajax({
             type: "get",
             url: "/LecturerCourses/GetBySession",
-            data: { LecturerId: lId, sessionId: sessionId },
+            data: { lecturerId: lecturerId, sessionId: sessionId },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
