@@ -1,0 +1,61 @@
+﻿@model ClassRoom.Models.Room_Booking.Routine
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Routine</h4>
+    <hr />
+    <div class="row">
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Sessions)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Sessions.Name)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Lecturers)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Lecturers.FullName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Course)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Course.Name)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-sm-6">
+            <table style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model.Bookings)
+                    {
+                        <tr>
+                            <td>@booking.Rooms.Name</td>
+                            <td>@booking.Class_Date?.ToString("dd/MM/yyyy")</td>
+                            <td>@booking.Slots.StartTime.ToString("hh:mm tt") - @booking.Slots.EndTime.ToString("hh:mm tt")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

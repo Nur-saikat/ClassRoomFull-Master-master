@@ -29,12 +29,26 @@ namespace ClassRoom.Controllers
             return View(await databasecon.ToListAsync());
         }
 
-        //public IActionResult Index()
-        //{
+        // GET: Routines/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Routines == null)
+            {
+                return NotFound();
+            }
 
+            var routine = await _context.Routines
+                .Include(r => r.Course)
+                .Include(r => r.Lecturers)
+                .Include(r => r.Sessions)
+                .Include(r => r.Bookings)
+                    .ThenInclude(b => b.Rooms)
+                .Include(r => r.Bookings)
+                    .ThenInclude(b => b.Slots)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-        //    return View();
-        //}
+            return View(routine);
+        }
         [HttpGet]
         public IActionResult Search(string SearchTerm)
         {
