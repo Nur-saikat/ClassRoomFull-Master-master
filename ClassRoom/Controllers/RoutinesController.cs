@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.Room_Booking;
+using classroombooking.DataCreate;
+using Microsoft.Extensions.Primitives;
 
 namespace ClassRoom.Controllers
 {
@@ -51,7 +53,7 @@ namespace ClassRoom.Controllers
         public IActionResult Create()
         {
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
-            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName");            
+            ViewData["LecturerId"] = new SelectList(_context.Lecturers, "Id", "FullName");
             ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name");
 
             ViewData["Rooms"] = new SelectList(_context.Rooms, "Id", "Name");
@@ -67,7 +69,15 @@ namespace ClassRoom.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SessionId,LecturerId,CourseId")] Routine routine, int? RoomId, int? SlotId)
         {
-            if (ModelState.IsValid)
+            StringValues days;
+
+            Request.Form.TryGetValue("days[]", out days);
+
+            if (days.Count == 0)
+                ViewBag.Status = "Please select at least one day";
+
+
+            if (ModelState.IsValid && days.Count > 0)
             {
 
                 _context.Add(routine);
@@ -80,34 +90,33 @@ namespace ClassRoom.Controllers
                    .FirstOrDefault(s => s.Id == routine.SessionId);
                 var routing = _context
                    .Rooms
-                   
+
                    .FirstOrDefault(s => s.Id == routine.SessionId);
 
 
-                DateTime SessionStartDate = session.Session_Start_Date;
-                DateTime SessionEndDate = session.Session_End_Date;
+                DateTime startDate = session.Session_Start_Date.Date;
+                DateTime endDate = session.Session_End_Date.Date;
 
-              
-
-                while (SessionStartDate.Date <= SessionEndDate.Date)
+                while (startDate <= endDate)
                 {
-                    SessionStartDate = SessionStartDate.AddDays(7);
-                    
-                    var newData = new Booking()
+                    if (!days.Contains(startDate.DayOfWeek.GetHashCode().ToString())) {
+                        startDate = startDate.AddDays(1);
+                        continue; 
+                    }
+
+                    _context.Add(new Booking()
                     {
-                       Class_Date = SessionStartDate,
-                       RoomId = RoomId,
-                       SlotId = SlotId,
-                       RoutineId = routine.Id
-                     
+                        Class_Date = startDate,
+                        RoomId = RoomId,
+                        SlotId = SlotId,
+                        RoutineId = routine.Id
+                    });
 
-                    };
-
-                    _context.Add(newData);
-                   
+                    startDate = startDate.AddDays(1);
                 }
+
                 await _context.SaveChangesAsync();
-                
+
 
                 return RedirectToAction(nameof(Index));
             }
@@ -218,6 +227,8 @@ namespace ClassRoom.Controllers
             var routine = await _context.Routines.FindAsync(id);
             if (routine != null)
             {
+                var booking = await _context.Bookings.Where(m => m.RoutineId == routine.Id).ToListAsync();
+                _context.Bookings.RemoveRange(booking);
                 _context.Routines.Remove(routine);
             }
 
@@ -229,5 +240,7 @@ namespace ClassRoom.Controllers
         {
             return (_context.Routines?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+
     }
 }

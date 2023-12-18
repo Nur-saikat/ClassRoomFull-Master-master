@@ -46,7 +46,7 @@
                     {
                         <tr>
                             <td>@booking.Rooms.Name</td>
-                            <td>@booking.Class_Date?.ToString("dd/MM/yyyy")</td>
+                            <td>@booking.Class_Date?.ToString("dd/MM/yyyy") (@booking.Class_Date?.DayOfWeek.ToString())</td>
                             <td>@booking.Slots.StartTime.ToString("hh:mm tt") - @booking.Slots.EndTime.ToString("hh:mm tt")</td>
                         </tr>
                     }
@@ -56,6 +56,5 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -10,31 +10,56 @@
 <h4 class="text-danger">@ViewBag.Status</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="SessionId" class="control-label"></label>
+                        <select asp-for="SessionId" class="form-control" asp-items="ViewBag.SessionId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LecturerId" class="control-label"></label>
+                        <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.LecturerId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CourseId" class="control-label"></label>
+                        <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label">Room</label>
+                        @Html.DropDownList("RoomId", (IEnumerable<SelectListItem>)ViewBag.Rooms, new { @class = "form-control" })
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="SessionId" class="control-label"></label>
-                <select asp-for="SessionId" class="form-control" asp-items="ViewBag.SessionId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="LecturerId" class="control-label"></label>
-                <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.LecturerId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label">Slot</label>
+                        @Html.DropDownList("SlotId", (IEnumerable<SelectListItem>)ViewBag.Slots, new { @class = "form-control" })
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label">Room</label>
-                @Html.DropDownList("RoomId", (IEnumerable<SelectListItem>)ViewBag.Rooms, new { @class = "form-control" })
-            </div>
+                    <input type="checkbox" id="sunday" name="days[]" value="0">
+                    <label for="sunday">Sunday</label><br>
 
-            <div class="form-group">
-                <label class="control-label">Slot</label>
-                @Html.DropDownList("SlotId", (IEnumerable<SelectListItem>)ViewBag.Slots, new { @class = "form-control" })
+                    <input type="checkbox" id="monday" name="days[]" value="1">
+                    <label for="monday">Monday</label><br>
+
+                    <input type="checkbox" id="tuesday " name="days[]" value="2">
+                    <label for="tuesday ">Tuesday </label><br>
+
+                    <input type="checkbox" id="wednesday " name="days[]" value="3">
+                    <label for="wednesday ">Wednesday </label><br>
+
+                    <input type="checkbox" id="thursday " name="days[]" value="4">
+                    <label for="thursday ">Thursday </label><br>
+
+                    <input type="checkbox" id="friday " name="days[]" value="5">
+                    <label for="friday ">Friday </label><br>
+
+                    <input type="checkbox" id="saturday " name="days[]" value="6">
+                    <label for="saturday ">Saturday </label><br>
+                </div>
             </div>
 
             <div class="form-group">

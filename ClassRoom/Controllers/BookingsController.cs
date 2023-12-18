@@ -65,6 +65,33 @@ namespace ClassRoom.Controllers
         {
             if (ModelState.IsValid)
             {
+                var slot = _context
+                    .Slots
+                    .FirstOrDefault(s => s.Id == booking.SlotId);
+
+                var bookings = await _context
+                    .Bookings
+                    .Include(b => b.Slots)
+                    .Where(b => b.RoomId == booking.RoomId &&
+                            (
+                                (slot.StartTime.TimeOfDay <= b.Slots.StartTime.TimeOfDay && slot.EndTime.TimeOfDay >= b.Slots.StartTime.TimeOfDay) ||
+                                (slot.StartTime.TimeOfDay <= b.Slots.EndTime.TimeOfDay && slot.EndTime.TimeOfDay >= b.Slots.EndTime.TimeOfDay) ||
+                                (b.Slots.StartTime.TimeOfDay <= slot.StartTime.TimeOfDay && b.Slots.StartTime.TimeOfDay >= slot.EndTime.TimeOfDay) ||
+                                (b.Slots.EndTime.TimeOfDay <= slot.StartTime.TimeOfDay && b.Slots.EndTime.TimeOfDay >= slot.EndTime.TimeOfDay)
+                            )
+                        )
+                    .ToListAsync();
+
+
+                if (bookings.Any())
+                {
+                    ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
+                    ViewData["SlotId"] = new SelectList(_context.Slots, "Id", "Name", booking.SlotId);
+
+                    ViewBag.Status = "The Booking Could not be created.There were no available Room";
+
+                    return View(booking);
+                }
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -110,7 +137,37 @@ namespace ClassRoom.Controllers
             {
                 try
                 {
-                    _context.Update(booking);
+
+                    var slot = _context
+                   .Slots
+                   .FirstOrDefault(s => s.Id == booking.SlotId);
+
+                    var bookings = await _context
+                        .Bookings
+                        .Include(b => b.Slots)
+                        .Where(b => b.RoomId == booking.RoomId &&
+                                (
+                                    (slot.StartTime.TimeOfDay <= b.Slots.StartTime.TimeOfDay && slot.EndTime.TimeOfDay >= b.Slots.StartTime.TimeOfDay) ||
+                                    (slot.StartTime.TimeOfDay <= b.Slots.EndTime.TimeOfDay && slot.EndTime.TimeOfDay >= b.Slots.EndTime.TimeOfDay) ||
+                                    (b.Slots.StartTime.TimeOfDay <= slot.StartTime.TimeOfDay && b.Slots.StartTime.TimeOfDay >= slot.EndTime.TimeOfDay) ||
+                                    (b.Slots.EndTime.TimeOfDay <= slot.StartTime.TimeOfDay && b.Slots.EndTime.TimeOfDay >= slot.EndTime.TimeOfDay)
+                                )
+                            )
+                        .ToListAsync();
+
+
+                    if (bookings.Any())
+                    {
+                        ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Name", booking.RoomId);
+                        ViewData["SlotId"] = new SelectList(_context.Slots, "Id", "Name", booking.SlotId);
+
+                        ViewBag.Status = "The Booking Could not be created.There were no available Room";
+
+                        return View(booking);
+                    }
+
+
+                        _context.Update(booking);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
