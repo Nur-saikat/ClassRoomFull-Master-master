@@ -1,10 +1,12 @@
 ﻿using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClassRoom.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class HolidaysController : Controller
     {
 
@@ -77,7 +79,7 @@ namespace ClassRoom.Controllers
             }
             return View(hday);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Sessions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -130,7 +132,7 @@ namespace ClassRoom.Controllers
 
             return View(hday);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Sessions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

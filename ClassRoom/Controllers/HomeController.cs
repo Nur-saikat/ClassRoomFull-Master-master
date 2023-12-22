@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace ClassRoom.Controllers
 {
-
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController>_Context;
@@ -22,7 +22,7 @@ namespace ClassRoom.Controllers
             _context = context;
         }
 
-        [Authorize]
+        
         public async Task<IActionResult> Index()
         {
             var databasecon = _context.Routines.Include(r => r.Course).Include(r => r.Lecturers).Include(r => r.Sessions);
@@ -49,12 +49,7 @@ namespace ClassRoom.Controllers
 
             return View(routine);
         }
-        [HttpGet]
-        public IActionResult Search(string SearchTerm)
-        {
-           
-            return View();
-        }
+   
 
         public IActionResult Privacy()
         {

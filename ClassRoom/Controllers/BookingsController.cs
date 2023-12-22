@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.Room_Booking;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class BookingsController : Controller
     {
         private readonly Databasecon _context;
@@ -209,7 +211,7 @@ namespace ClassRoom.Controllers
 
             return View(booking);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Bookings2/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

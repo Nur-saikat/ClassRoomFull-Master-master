@@ -12,7 +12,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace ClassRoom.Controllers
 {
-    //[Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin,Manager")]
     public class CoursesController : Controller
     {
 
@@ -102,7 +102,7 @@ namespace ClassRoom.Controllers
             return View(course);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -158,7 +158,7 @@ namespace ClassRoom.Controllers
             return View(course);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

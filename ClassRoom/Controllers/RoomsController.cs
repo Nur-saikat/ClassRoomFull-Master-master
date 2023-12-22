@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.Controllers
 {
-    //[Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin,Manager")]
     public class RoomsController : Controller
     {
         private readonly Databasecon _context;
@@ -98,7 +98,7 @@ namespace ClassRoom.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         /// <summary>
-        /// [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         /// </summary>
         /// <param name="id"></param>
         /// <param name="room"></param>
@@ -160,7 +160,7 @@ namespace ClassRoom.Controllers
 
             return View(room);
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // POST: Rooms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -10,9 +10,11 @@ using ClassRoom.Models.Room_Booking;
 using classroombooking.DataCreate;
 using Microsoft.Extensions.Primitives;
 using ClassRoom.Models.DataCreate;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class RoutinesController : Controller
     {
         private readonly Databasecon _context;
@@ -180,7 +182,7 @@ namespace ClassRoom.Controllers
 
             return View(routine);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Routines/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -243,7 +245,7 @@ namespace ClassRoom.Controllers
 
             return View(routine);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Routines/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

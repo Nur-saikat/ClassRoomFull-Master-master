@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class SessionsController : Controller
     {
         private readonly Databasecon _context;
@@ -82,7 +84,7 @@ namespace ClassRoom.Controllers
             }
             return View(session);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Sessions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -135,7 +137,7 @@ namespace ClassRoom.Controllers
 
             return View(session);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Sessions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
