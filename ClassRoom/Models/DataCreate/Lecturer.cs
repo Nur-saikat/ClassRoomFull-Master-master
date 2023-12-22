@@ -20,7 +20,7 @@ namespace ClassRoom.Models.DataCreate
         [Display(Name = "Full Name")]
         public string FullName => $"{FirstName} {LastName}";
         
-        public int Number { get; set; }
+        public long Number { get; set; }
         
     
         [NotMapped]

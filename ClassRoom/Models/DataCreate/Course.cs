@@ -12,7 +12,7 @@ namespace classroombooking.DataCreate
 
         public string? Code { get; set; }
 
-        public int? Credits { get; set; }
+        public float? Credits { get; set; }
 
     
         [NotMapped]

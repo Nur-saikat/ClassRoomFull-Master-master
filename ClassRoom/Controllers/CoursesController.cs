@@ -118,20 +118,7 @@ namespace ClassRoom.Controllers
             if (ModelState.IsValid)
             {
 
-                bool isDuplicate = _context.Courses.Any(p => p.Name == course.Name);
-
-                if (isDuplicate)
-                {
-                    ModelState.AddModelError("Name", "A course with this Name already exists.");
-                    return View(course);
-                }
-                bool isDuplicateCode = _context.Courses.Any(p => p.Code == course.Code);
-
-                if (isDuplicateCode)
-                {
-                    ModelState.AddModelError("Code", "A course with this Code already exists.");
-                    return View(course);
-                }
+          
                 try
                 {
                     _context.Update(course);

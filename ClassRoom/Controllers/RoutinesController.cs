@@ -77,8 +77,16 @@ namespace ClassRoom.Controllers
             if (days.Count == 0)
                 ViewBag.Status = "Please select at least one day";
 
+            var sessionCourse = await _context.Routines
+                .Where(s => s.CourseId == routine.CourseId && s.LecturerId == routine.LecturerId && s.SessionId == routine.SessionId).ToListAsync();
 
-            if (ModelState.IsValid && days.Count > 0)
+            var isDuplicate = sessionCourse.Any();
+
+            if (isDuplicate)
+                ViewBag.Status = "Please change your !";
+            
+
+            if (ModelState.IsValid && days.Count > 0 && !isDuplicate)
             {
                 _context.Add(routine);
 

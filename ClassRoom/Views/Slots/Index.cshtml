@@ -3,13 +3,18 @@
 @{
     ViewData["Title"] = "Index";
 }
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<h1>
+    Class Time List
 
-<h1>Index</h1>
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>Create New Time</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+</h1>
+
+
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+    <table class="table table-bordered table-striped mb-0">
     <thead>
         <tr>
             <th>
@@ -45,3 +50,4 @@
 }
     </tbody>
 </table>
+</div>

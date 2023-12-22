@@ -4,6 +4,7 @@ using ClassRoom.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassRoom.Migrations
 {
     [DbContext(typeof(Databasecon))]
-    partial class DatabaseconModelSnapshot : ModelSnapshot
+    [Migration("20231222141915_lulong")]
+    partial class lulong
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -484,8 +487,8 @@ namespace ClassRoom.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("Credits")
-                        .HasColumnType("real");
+                    b.Property<int?>("Credits")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
