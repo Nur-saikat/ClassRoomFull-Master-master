@@ -9,6 +9,7 @@ using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.Room_Booking;
 using classroombooking.DataCreate;
 using Microsoft.Extensions.Primitives;
+using ClassRoom.Models.DataCreate;
 
 namespace ClassRoom.Controllers
 {
@@ -79,7 +80,6 @@ namespace ClassRoom.Controllers
 
             if (ModelState.IsValid && days.Count > 0)
             {
-
                 _context.Add(routine);
 
                 await _context.SaveChangesAsync();
@@ -88,20 +88,28 @@ namespace ClassRoom.Controllers
                 var session = _context
                    .Session
                    .FirstOrDefault(s => s.Id == routine.SessionId);
+
                 var routing = _context
                    .Rooms
-
                    .FirstOrDefault(s => s.Id == routine.SessionId);
-
 
                 DateTime startDate = session.Session_Start_Date.Date;
                 DateTime endDate = session.Session_End_Date.Date;
 
+                var holidays = await _context.Hdays.Where(h =>
+                        (h.Start_Date >= startDate && h.Start_Date <= endDate) ||
+                        (h.End_Date >= startDate && h.End_Date <= endDate))
+                        .ToListAsync();
+
                 while (startDate <= endDate)
                 {
-                    if (!days.Contains(startDate.DayOfWeek.GetHashCode().ToString())) {
+                    if (
+                        !days.Contains(startDate.DayOfWeek.GetHashCode().ToString()) ||
+                        isInHolidays(startDate, holidays)
+                       )
+                    {
                         startDate = startDate.AddDays(1);
-                        continue; 
+                        continue;
                     }
 
                     _context.Add(new Booking()
@@ -127,6 +135,19 @@ namespace ClassRoom.Controllers
 
             ViewData["Rooms"] = new SelectList(_context.Rooms, "Id", "Name", RoomId);
             ViewData["Slots"] = new SelectList(_context.Slots, "Id", "Name", SlotId);
+
+            bool isInHolidays(DateTime date, List<Hday> holidayList)
+            {
+                var isHoliday = false;
+
+                foreach (var hd in holidayList)
+                {
+                    if (date >= hd.Start_Date && date <= hd.End_Date)
+                        isHoliday = true;
+                }
+
+                return isHoliday;
+            }
 
             return View(routine);
         }

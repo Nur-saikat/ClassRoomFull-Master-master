@@ -19,12 +19,20 @@ public class Databasecon : IdentityDbContext<IdentityUser>
     public DbSet<Routine> Routines { get; set; }
 
     public DbSet<Room> Rooms { get; set; }
+
     public DbSet<Lecturer> Lecturers { get; set; }
+
     public DbSet<Course> Courses { get; set; }
+
     public DbSet<Department> Departments { get; set; }
+
     public DbSet<LecturerCourse> LecturerCourses { get; set; }
+
     public DbSet<StudentCourse> StudentCourse { get; set; }
+
     public DbSet<Slot> Slots { get; set; }
+
+    public DbSet<Hday> Hdays { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

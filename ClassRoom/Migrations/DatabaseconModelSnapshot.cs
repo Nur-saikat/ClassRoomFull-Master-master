@@ -39,6 +39,29 @@ namespace ClassRoom.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("ClassRoom.Models.DataCreate.Hday", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("End_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Start_Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Hdays");
+                });
+
             modelBuilder.Entity("ClassRoom.Models.DataCreate.Lecturer", b =>
                 {
                     b.Property<int>("Id")

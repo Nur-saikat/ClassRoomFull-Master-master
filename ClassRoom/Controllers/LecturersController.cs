@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
+    //[Authorize(Roles = "Admin,Manager")]
     public class LecturersController : Controller
     {
         private readonly Databasecon _context;

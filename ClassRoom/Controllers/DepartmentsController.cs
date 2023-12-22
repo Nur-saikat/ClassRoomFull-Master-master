@@ -6,7 +6,7 @@ using Department = ClassRoom.DataCreate.Department;
 
 namespace ClassRoom.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
+   // [Authorize(Roles = "Admin,Manager")]
     public class DepartmentsController : Controller
     {
         private readonly Databasecon _context;
@@ -86,7 +86,7 @@ namespace ClassRoom.Controllers
             }
             return View(department);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         // POST: Departments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -129,7 +129,7 @@ namespace ClassRoom.Controllers
             return View(department);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         // GET: Departments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -147,7 +147,7 @@ namespace ClassRoom.Controllers
 
             return View(department);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         // POST: Departments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
