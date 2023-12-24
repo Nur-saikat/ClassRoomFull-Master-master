@@ -19,11 +19,11 @@
                 @Html.DisplayNameFor(model => model.Students)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sessions)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Courses)
-            </th>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sessions)
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -34,11 +34,11 @@
                 @Html.DisplayFor(modelItem => item.Students.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sessions.Name)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Courses.Name)
-            </td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sessions.Name)
+                    </td>
             <td>
 
                         <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-distribute-vertical"></i></a> |

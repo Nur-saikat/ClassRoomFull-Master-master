@@ -1,4 +1,5 @@
 ﻿using ClassRoom.Areas.Identity.Data;
+using classroombooking.DataCreate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace ClassRoom.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
+
               return _context.Departments != null ? 
                           View(await _context.Departments.ToListAsync()) :
                           Problem("Entity set 'Databasecon.Departments'  is null.");
@@ -64,10 +66,14 @@ namespace ClassRoom.Controllers
                     ModelState.AddModelError("Name", "A course with this name already exists.");
                     return View(department);
                 }
+               
                 _context.Add(department);
+               
                 await _context.SaveChangesAsync();
+               
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(department);
         }
 
@@ -101,13 +107,7 @@ namespace ClassRoom.Controllers
 
             if (ModelState.IsValid)
             {
-                bool isDuplicate = _context.Departments.Any(p => p.Name == department.Name);
-
-                if (isDuplicate)
-                {
-                    ModelState.AddModelError("Name", "A course with this name already exists.");
-                    return View(department);
-                }
+                
                 try
                 {
                     _context.Update(department);
@@ -160,6 +160,12 @@ namespace ClassRoom.Controllers
             var department = await _context.Departments.FindAsync(id);
             if (department != null)
             {
+                var DepartmentsDelete = await _context.Student
+                    
+
+                    .Where(m => m.DepartmentId == department.Id).ToListAsync();
+                _context.Departments.RemoveRange(department);
+
                 _context.Departments.Remove(department);
             }
             

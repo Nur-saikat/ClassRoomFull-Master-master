@@ -85,7 +85,7 @@ namespace ClassRoom.Controllers
             var isDuplicate = sessionCourse.Any();
 
             if (isDuplicate)
-                ViewBag.Status = "Please change your !";
+                ViewBag.Status = "Please change your Routine(Room Alrady Upkeep)";
             
 
             if (ModelState.IsValid && days.Count > 0 && !isDuplicate)

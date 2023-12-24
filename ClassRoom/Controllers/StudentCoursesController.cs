@@ -70,11 +70,15 @@ namespace ClassRoom.Controllers
             if (ModelState.IsValid)
             {
 
+                
+
                 bool isDuplicate = _context.StudentCourse.Any(p => p.CourseId == studentCourse.CourseId && p.SessionId==studentCourse.SessionId);
 
                 if (isDuplicate)
                 {
-                    ViewBag.Status = "A course with this name already exists.";
+                   
+
+                    ViewBag.Status = "A Course Alrady Upkeep";
                     ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentCourse.CourseId);
                     ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", studentCourse.StudentId);
                     ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", studentCourse.SessionId);
@@ -127,6 +131,19 @@ namespace ClassRoom.Controllers
             {
                 try
                 {
+                    bool isDuplicate = _context.StudentCourse.Any(p => p.CourseId == studentCourse.CourseId && p.SessionId == studentCourse.SessionId);
+
+                    if (isDuplicate)
+                    {
+
+
+                        ViewBag.Status = "A Course Alrady Upkeep";
+                        ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentCourse.CourseId);
+                        ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", studentCourse.StudentId);
+                        ViewData["SessionId"] = new SelectList(_context.Session, "Id", "Name", studentCourse.SessionId);
+
+                        return View(studentCourse);
+                    }
                     _context.Update(studentCourse);
                     await _context.SaveChangesAsync();
                 }

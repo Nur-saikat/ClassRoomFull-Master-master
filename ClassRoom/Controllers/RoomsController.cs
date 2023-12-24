@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
 using Microsoft.AspNetCore.Authorization;
+using classroombooking.DataCreate;
 
 namespace ClassRoom.Controllers
 {
@@ -173,6 +174,9 @@ namespace ClassRoom.Controllers
             var room = await _context.Rooms.FindAsync(id);
             if (room != null)
             {
+                var roomdelet = await _context.Bookings.Where(m => m.RoomId == room.Id).ToListAsync();
+                _context.Rooms.RemoveRange(room);
+
                 _context.Rooms.Remove(room);
             }
             
