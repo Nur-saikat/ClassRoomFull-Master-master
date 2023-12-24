@@ -6,7 +6,7 @@ using Department = ClassRoom.DataCreate.Department;
 
 namespace ClassRoom.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin")]
     public class DepartmentsController : Controller
     {
         private readonly Databasecon _context;

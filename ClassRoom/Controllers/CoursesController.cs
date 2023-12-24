@@ -12,7 +12,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace ClassRoom.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin")]
     public class CoursesController : Controller
     {
 

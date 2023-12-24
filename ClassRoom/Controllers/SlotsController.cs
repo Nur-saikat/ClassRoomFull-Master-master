@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin")]
     public class SlotsController : Controller
     {
         private readonly Databasecon _context;
@@ -62,6 +62,7 @@ namespace ClassRoom.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 _context.Add(slod);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

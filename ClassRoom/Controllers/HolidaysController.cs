@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClassRoom.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin")]
     public class HolidaysController : Controller
     {
 

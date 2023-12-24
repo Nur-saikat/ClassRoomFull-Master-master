@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
 using Microsoft.AspNetCore.Authorization;
+using classroombooking.DataCreate;
 
 namespace ClassRoom.Controllers
 {
@@ -72,6 +73,13 @@ namespace ClassRoom.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool isDuplicate = _context.Lecturers.Any(p => p.LecturerId == lecturer.LecturerId);
+                
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError("LecturerId", "A Lecturer with this Id already exists.");
+                    return View(lecturer);
+                }
                 _context.Add(lecturer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
