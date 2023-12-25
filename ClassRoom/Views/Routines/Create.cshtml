@@ -31,10 +31,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="control-label">Room</label>
-                        @Html.DropDownList("RoomId", (IEnumerable<SelectListItem>)ViewBag.Rooms, new { @class = "form-control" })
-                    </div>
-
-                    <div class="form-group">
+                        @Html.DropDownList("RoomId", (IEnumerable<SelectListItem>)ViewBag.Rooms, new { @class = "form-control"})
+                      
                         <label class="control-label">Slot</label>
                         @Html.DropDownList("SlotId", (IEnumerable<SelectListItem>)ViewBag.Slots, new { @class = "form-control" })
                     </div>

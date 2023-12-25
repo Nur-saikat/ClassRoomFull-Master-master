@@ -9,6 +9,7 @@ using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
 using Microsoft.AspNetCore.Authorization;
 using classroombooking.DataCreate;
+using NuGet.Protocol;
 
 namespace ClassRoom.Controllers
 {
@@ -170,7 +171,10 @@ namespace ClassRoom.Controllers
             var lecturer = await _context.Lecturers.FindAsync(id);
             if (lecturer != null)
             {
-                var lecturersCourse = await _context.LecturerCourses.Where(m => m.LecturerId == lecturer.Id).ToListAsync();
+                var lecturersCourse = await _context.LecturerCourses
+                    .Where(m => m.LecturerId == lecturer.Id).ToListAsync();
+                var lecturersrouting = await _context.Routines.Where(m => m.LecturerId == lecturer.Id).ToListAsync();
+                
                 _context.LecturerCourses.RemoveRange(lecturersCourse);
                 _context.Lecturers.Remove(lecturer);
             }

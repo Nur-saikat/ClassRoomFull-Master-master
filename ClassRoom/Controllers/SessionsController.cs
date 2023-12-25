@@ -62,6 +62,13 @@ namespace ClassRoom.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool isDuplicate = _context.Session.Any(p => p.Session_Start_Date.Date >= session.Session_Start_Date.Date);
+
+                if (isDuplicate)
+                {
+                    ViewBag.Status = "A Class time Upkeep already .";
+                    return View(session);
+                }
                 _context.Add(session);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,6 +108,13 @@ namespace ClassRoom.Controllers
             {
                 try
                 {
+                    bool isDuplicate = _context.Session.Any(p => p.Session_Start_Date.Date >= session.Session_Start_Date.Date);
+
+                    if (isDuplicate)
+                    {
+                        ViewBag.Status = "A Class time Upkeep already .";
+                        return View(session);
+                    }
                     _context.Update(session);
                     await _context.SaveChangesAsync();
                 }

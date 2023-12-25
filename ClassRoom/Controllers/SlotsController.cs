@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ClassRoom.Areas.Identity.Data;
 using ClassRoom.Models.DataCreate;
 using Microsoft.AspNetCore.Authorization;
+using DocumentFormat.OpenXml.Drawing;
+using classroombooking.DataCreate;
 
 namespace ClassRoom.Controllers
 {
@@ -58,16 +60,24 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartTime,EndTime")] Slot slod)
+        public async Task<IActionResult> Create([Bind("Id,Name,StartTime,EndTime")] Slot slot)
         {
             if (ModelState.IsValid)
             {
+                bool isDuplicate = _context.Slots.Any(p => p.StartTime.TimeOfDay >= slot.StartTime.TimeOfDay);
+                
+                if (isDuplicate)
+                {
+                    ViewBag.Status = "A Class time Upkeep already .";
+                    return View(slot);
+                }
 
-                _context.Add(slod);
+
+                _context.Add(slot);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(slod);
+            return View(slot);
         }
 
         // GET: Slods/Edit/5
@@ -91,9 +101,9 @@ namespace ClassRoom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartTime,EndTime")] Slot slod)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartTime,EndTime")] Slot slot)
         {
-            if (id != slod.Id)
+            if (id != slot.Id)
             {
                 return NotFound();
             }
@@ -102,12 +112,19 @@ namespace ClassRoom.Controllers
             {
                 try
                 {
-                    _context.Update(slod);
+                    bool isDuplicate = _context.Slots.Any(p => p.StartTime.TimeOfDay == slot.StartTime.TimeOfDay);
+
+                    if (isDuplicate)
+                    {
+                        ViewBag.Status = "A Class time Upkeep already .";
+                        return View(slot);
+                    }
+                    _context.Update(slot);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SlodExists(slod.Id))
+                    if (!SlotExists(slot.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +135,7 @@ namespace ClassRoom.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(slod);
+            return View(slot);
         }
 
         // GET: Slods/Delete/5
@@ -129,14 +146,14 @@ namespace ClassRoom.Controllers
                 return NotFound();
             }
 
-            var slod = await _context.Slots
+            var slot = await _context.Slots
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (slod == null)
+            if (slot == null)
             {
                 return NotFound();
             }
 
-            return View(slod);
+            return View(slot);
         }
         [Authorize(Roles = "Admin")]
         // POST: Slods/Delete/5
@@ -148,17 +165,19 @@ namespace ClassRoom.Controllers
             {
                 return Problem("Entity set 'Databasecon.Slods'  is null.");
             }
-            var slod = await _context.Slots.FindAsync(id);
-            if (slod != null)
+            var slot = await _context.Slots.FindAsync(id);
+            if (slot != null)
             {
-                _context.Slots.Remove(slod);
+                var AllSlot = await _context.Slots.Where(m => m.Id == slot.Id).ToListAsync();
+                _context.Slots.RemoveRange(slot);
+                _context.Slots.Remove(slot);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SlodExists(int id)
+        private bool SlotExists(int id)
         {
           return (_context.Slots?.Any(e => e.Id == id)).GetValueOrDefault();
         }

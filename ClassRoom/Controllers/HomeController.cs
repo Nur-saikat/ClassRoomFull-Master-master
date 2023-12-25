@@ -25,7 +25,7 @@ namespace ClassRoom.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var databasecon = _context.Routines.Include(r => r.Course).Include(r => r.Lecturers).Include(r => r.Sessions);
+            var databasecon = _context.Routines.Include(r => r.Course!).Include(r => r.Lecturers!).Include(r => r.Sessions!);
             return View(await databasecon.ToListAsync());
         }
 
