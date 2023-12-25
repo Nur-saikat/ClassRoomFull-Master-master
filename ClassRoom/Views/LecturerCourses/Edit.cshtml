@@ -7,7 +7,7 @@
 
 <h1 style="display: flex;justify-content: center;">Edit</h1>
 <h4 style="color:red">@ViewBag.Status</h4>
-<h4>Lecturer Course</h4>
+<h4>Teacher Course</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="LecturerId" class="control-label"></label>
+                <label asp-for="LecturerId" class="control-label">Teacher Id</label>
                 <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.LecturerId"></select>
                 <span asp-validation-for="LecturerId" class="text-danger"></span>
             </div>

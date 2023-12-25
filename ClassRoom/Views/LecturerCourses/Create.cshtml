@@ -7,14 +7,14 @@
 
 <h1 style="display: flex;justify-content: center;">Create</h1>
 <h4 style="color:red">@ViewBag.Status</h4>
-<h4>LecturerCourse</h4>
+<h4>Teacher Course</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="LecturerId" class="control-label"></label>
+                <label asp-for="LecturerId" class="control-label">Teacher ID</label>
                 <select asp-for="LecturerId" class ="form-control" asp-items="ViewBag.LecturerId"></select>
             </div>
             <div class="form-group">

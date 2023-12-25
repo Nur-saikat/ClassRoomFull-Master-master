@@ -1,7 +1,7 @@
 ﻿@model ClassRoom.Models.DataCreate.Lecturer
 
 @{
-    ViewData["Title"] = "Lecturer Delete";
+    ViewData["Title"] = "Teacher Delete";
 }
 <link href="~/css/stylesheet.css" rel="stylesheet" />
 
@@ -9,11 +9,11 @@
 
 <h3 style="color:red;">Are you sure you want to delete this?</h3>
 <div>
-    <h4>Lecturer</h4>
+    <h4>Teacher</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LecturerId)
+            Teacher ID
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LecturerId)

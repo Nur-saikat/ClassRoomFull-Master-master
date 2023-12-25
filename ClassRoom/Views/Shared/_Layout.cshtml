@@ -33,7 +33,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Student</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Lecturers" asp-action="Index">Lecturer</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Lecturers" asp-action="Index">Teacher</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Courses</a>
@@ -66,6 +66,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -78,6 +79,7 @@
             &copy; 2023 - Class Room-Saikat @*  - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

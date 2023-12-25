@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<ClassRoom.Models.DataCreate.Lecturer>
 
 @{
-    ViewData["Title"] = "Lecturer information";
+    ViewData["Title"] = "Teacher information";
 }
 
 <link href="~/css/stylesheet.css" rel="stylesheet" />
 
 
 <h1>
-    Lecturer information
+    Teacher Information
 
-    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>New Lecturer</a>
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-file-plus"></i>New Teacher</a>
     <a class="btn btn-primary" asp-area="" asp-controller="LecturerCourses"><i class="bi bi-file-plus"></i>Add Courses</a>
 
 </h1>
@@ -19,7 +19,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LecturerId)
+                    Teacher ID
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)

@@ -16,10 +16,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Slots)
+               Class Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Class_Date)
+                    Class Date
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rooms)
@@ -29,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderBy(i=>i.Class_Date)) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Slots.Name)
